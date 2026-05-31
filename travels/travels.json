@@ -1,0 +1,31 @@
+{
+  "travels": [
+    {
+      "slug": "menorca-2026",
+      "title": "Menorca 2026",
+      "start_date": "2026-05-21",
+      "end_date": "2026-05-28",
+      "photos": [
+        {
+          "path": "photos/IMG_5009.png",
+          "latitude": 39.9999,
+          "longitude": 3.0,
+          "timestamp": "2026-05-21T10:00:00Z",
+          "caption": ""
+        }
+      ],
+      "tracks": [
+        {
+          "date": "2026-05-21",
+          "path": "tracks/65556-Activity_2026-05-21_08-21_179670559.gpx"
+        }
+      ],
+      "notes": [
+        {
+          "date": "2026-05-21",
+          "path": "notes/day01.md"
+        }
+      ]
+    }
+  ]
+}
