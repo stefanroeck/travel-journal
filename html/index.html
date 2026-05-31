@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Itinerary</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      crossorigin="">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Travel journal</p>
+        <h1 id="travel-title">My Itinerary</h1>
+      </div>
+      <label class="travel-picker">
+        <span>Travel</span>
+        <select id="travel-select" aria-label="Select travel"></select>
+      </label>
+    </header>
+
+    <nav id="day-nav" class="day-nav" aria-label="Travel days"></nav>
+
+    <main class="layout">
+      <section class="map-panel" aria-label="Track map">
+        <div id="map"></div>
+      </section>
+
+      <aside class="side-panel" aria-label="Day details">
+        <section class="content-section">
+          <div class="section-heading">
+            <h2>Track</h2>
+            <span id="track-name"></span>
+          </div>
+          <div id="track-stats" class="stats-grid"></div>
+        </section>
+
+        <section class="content-section">
+          <div class="section-heading">
+            <h2>Photos</h2>
+            <span id="photo-count"></span>
+          </div>
+          <div id="photos" class="photo-grid"></div>
+        </section>
+
+        <section class="content-section notes-section">
+          <div class="section-heading">
+            <h2>Notes</h2>
+            <span id="note-date"></span>
+          </div>
+          <article id="notes" class="notes"></article>
+        </section>
+      </aside>
+    </main>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-gpx@1.7.0/gpx.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -4,6 +4,26 @@ App to browse tracks and photos from my travels.
 
 ## Development
 
+### Static web page
+
+Start a local web server from the project root:
+
+```sh
+python3 -m http.server 8000
+```
+
+Then open:
+
+```text
+http://127.0.0.1:8000/html/
+```
+
+Serve the page from the project root, not from `html/`, so the browser can load
+`travels/travels.json`, GPX tracks, notes, and photos through the relative paths
+used by the static page.
+
+Stop the server with `Ctrl-C` in the terminal where it is running.
+
 This project includes a small Python utility for keeping photo GPS metadata in
 `travels/travels.json`.
 
