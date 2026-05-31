@@ -58,6 +58,15 @@
       </aside>
     </main>
 
+    <div id="photo-viewer" class="photo-viewer" hidden>
+      <button class="photo-viewer__backdrop" type="button" aria-label="Close photo"></button>
+      <figure class="photo-viewer__content">
+        <button class="photo-viewer__close" type="button" aria-label="Close photo">&times;</button>
+        <img id="photo-viewer-image" src="" alt="">
+        <figcaption id="photo-viewer-caption"></figcaption>
+      </figure>
+    </div>
+
     <script
       src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="

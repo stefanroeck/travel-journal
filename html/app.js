@@ -6,6 +6,8 @@ const state = {
   selectedDate: null,
   map: null,
   gpxLayer: null,
+  photoLayer: null,
+  currentPhotos: [],
 };
 
 const els = {
@@ -18,6 +20,9 @@ const els = {
   photoCount: document.querySelector("#photo-count"),
   notes: document.querySelector("#notes"),
   noteDate: document.querySelector("#note-date"),
+  photoViewer: document.querySelector("#photo-viewer"),
+  photoViewerImage: document.querySelector("#photo-viewer-image"),
+  photoViewerCaption: document.querySelector("#photo-viewer-caption"),
 };
 
 function repoPath(path) {
@@ -85,6 +90,10 @@ function getTrack() {
   return state.travel.tracks?.find((item) => item.date === state.selectedDate);
 }
 
+function getDayPhotos() {
+  return (state.travel.photos || []).filter((photo) => photoDate(photo) === state.selectedDate);
+}
+
 function formatTime(date) {
   return new Intl.DateTimeFormat(undefined, {
     hour: "2-digit",
@@ -120,6 +129,36 @@ function initMap() {
     maxZoom: 19,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(state.map);
+
+  state.photoLayer = L.layerGroup().addTo(state.map);
+}
+
+function photoCaption(photo) {
+  return photo.caption?.trim() || "Untitled";
+}
+
+function photoTime(photo) {
+  return photo.timestamp
+    ? new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit" }).format(new Date(photo.timestamp))
+    : "No time";
+}
+
+function openPhotoViewer(photo) {
+  if (!photo) return;
+
+  els.photoViewerImage.src = repoPath(photo.path);
+  els.photoViewerImage.alt = photoCaption(photo);
+  els.photoViewerCaption.textContent = `${photoCaption(photo)} · ${photoTime(photo)}`;
+  els.photoViewer.hidden = false;
+  document.body.classList.add("viewer-open");
+}
+
+function closePhotoViewer() {
+  els.photoViewer.hidden = true;
+  els.photoViewerImage.src = "";
+  els.photoViewerImage.alt = "";
+  els.photoViewerCaption.textContent = "";
+  document.body.classList.remove("viewer-open");
 }
 
 function renderTravelOptions() {
@@ -187,9 +226,32 @@ function renderTrack() {
     .addTo(state.map);
 }
 
+function renderPhotoMarkers() {
+  state.photoLayer.clearLayers();
+
+  state.currentPhotos.forEach((photo) => {
+    if (!Number.isFinite(photo.latitude) || !Number.isFinite(photo.longitude)) return;
+
+    const marker = L.marker([photo.latitude, photo.longitude], {
+      icon: L.divIcon({
+        className: "photo-marker",
+        html: '<span></span>',
+        iconSize: [30, 38],
+        iconAnchor: [15, 37],
+      }),
+      title: photoCaption(photo),
+    });
+
+    marker.on("click", () => openPhotoViewer(photo));
+    marker.addTo(state.photoLayer);
+  });
+}
+
 function renderPhotos() {
-  const photos = (state.travel.photos || []).filter((photo) => photoDate(photo) === state.selectedDate);
+  const photos = getDayPhotos();
+  state.currentPhotos = photos;
   els.photoCount.textContent = `${photos.length} ${photos.length === 1 ? "photo" : "photos"}`;
+  renderPhotoMarkers();
 
   if (!photos.length) {
     els.photos.innerHTML = '<div class="empty-state">No photos for this day.</div>';
@@ -197,16 +259,13 @@ function renderPhotos() {
   }
 
   els.photos.innerHTML = photos
-    .map((photo) => {
-      const time = photo.timestamp
-        ? new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit" }).format(new Date(photo.timestamp))
-        : "No time";
-      const caption = photo.caption?.trim() || "Untitled";
-      return `<figure class="photo-card">
+    .map((photo, index) => {
+      const caption = photoCaption(photo);
+      return `<figure class="photo-card" data-photo-index="${index}" tabindex="0">
         <img src="${repoPath(photo.path)}" alt="${escapeHtml(caption)}" loading="lazy">
         <figcaption class="photo-meta">
           <strong>${escapeHtml(caption)}</strong>
-          <span>${escapeHtml(time)}</span>
+          <span>${escapeHtml(photoTime(photo))}</span>
         </figcaption>
       </figure>`;
     })
@@ -257,6 +316,27 @@ function bindEvents() {
   els.dayNav.addEventListener("click", (event) => {
     const button = event.target.closest("[data-date]");
     if (button) selectDay(button.dataset.date);
+  });
+
+  els.photos.addEventListener("click", (event) => {
+    const card = event.target.closest("[data-photo-index]");
+    if (card) openPhotoViewer(state.currentPhotos[Number(card.dataset.photoIndex)]);
+  });
+
+  els.photos.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    const card = event.target.closest("[data-photo-index]");
+    if (!card) return;
+    event.preventDefault();
+    openPhotoViewer(state.currentPhotos[Number(card.dataset.photoIndex)]);
+  });
+
+  els.photoViewer.addEventListener("click", (event) => {
+    closePhotoViewer();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !els.photoViewer.hidden) closePhotoViewer();
   });
 }
 
