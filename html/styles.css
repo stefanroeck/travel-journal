@@ -137,6 +137,12 @@ h2 {
   height: 100%;
 }
 
+.main-panel {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
 .side-panel {
   display: grid;
   align-content: start;

@@ -25,9 +25,19 @@
     <nav id="day-nav" class="day-nav" aria-label="Travel days"></nav>
 
     <main class="layout">
-      <section class="map-panel" aria-label="Track map">
-        <div id="map"></div>
-      </section>
+      <div class="main-panel">
+        <section class="map-panel" aria-label="Track map">
+          <div id="map"></div>
+        </section>
+
+        <section class="content-section notes-section">
+          <div class="section-heading">
+            <h2>Notes</h2>
+            <span id="note-date"></span>
+          </div>
+          <article id="notes" class="notes"></article>
+        </section>
+      </div>
 
       <aside class="side-panel" aria-label="Day details">
         <section class="content-section">
@@ -44,14 +54,6 @@
             <span id="photo-count"></span>
           </div>
           <div id="photos" class="photo-grid"></div>
-        </section>
-
-        <section class="content-section notes-section">
-          <div class="section-heading">
-            <h2>Notes</h2>
-            <span id="note-date"></span>
-          </div>
-          <article id="notes" class="notes"></article>
         </section>
       </aside>
     </main>
