@@ -8,10 +8,31 @@
       "photos": [
         {
           "path": "photos/IMG_5009.png",
-          "latitude": 39.9999,
-          "longitude": 3.0,
-          "timestamp": "2026-05-21T10:00:00Z",
+          "latitude": 39.8848278,
+          "longitude": 4.2350139,
+          "timestamp": "2026-05-21T09:11:49Z",
           "caption": ""
+        },
+        {
+          "path": "photos/IMG_5011.png",
+          "caption": "",
+          "latitude": 39.8913944,
+          "longitude": 4.2602694,
+          "timestamp": "2026-05-21T09:58:35Z"
+        },
+        {
+          "path": "photos/IMG_5024.png",
+          "caption": "",
+          "latitude": 39.9142583,
+          "longitude": 4.2842861,
+          "timestamp": "2026-05-21T11:58:17Z"
+        },
+        {
+          "path": "photos/IMG_5025.png",
+          "caption": "",
+          "latitude": 39.9146278,
+          "longitude": 4.2843889,
+          "timestamp": "2026-05-21T11:58:28Z"
         }
       ],
       "tracks": [

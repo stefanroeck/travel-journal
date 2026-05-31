@@ -1,0 +1,11 @@
+[project]
+name = "my-itinerary"
+version = "0.1.0"
+description = "Utilities for maintaining travel metadata."
+requires-python = ">=3.11"
+dependencies = [
+    "Pillow>=10.0",
+]
+
+[tool.setuptools]
+py-modules = []
