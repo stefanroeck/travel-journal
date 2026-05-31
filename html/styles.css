@@ -358,13 +358,51 @@ h2 {
   place-items: center;
   width: 34px;
   height: 34px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 50%;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.62);
   color: var(--ink);
   cursor: pointer;
   font-size: 1.35rem;
   line-height: 1;
+  opacity: 0.72;
+  transition: background 120ms ease, opacity 120ms ease;
+}
+
+.photo-viewer__nav {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 58px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.48);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 2.6rem;
+  line-height: 1;
+  opacity: 0.64;
+  transition: background 120ms ease, opacity 120ms ease;
+  transform: translateY(-50%);
+}
+
+.photo-viewer__close:hover,
+.photo-viewer__close:focus-visible,
+.photo-viewer__nav:hover,
+.photo-viewer__nav:focus-visible {
+  background: rgba(255, 255, 255, 0.82);
+  opacity: 0.95;
+}
+
+.photo-viewer__nav--prev {
+  left: 12px;
+}
+
+.photo-viewer__nav--next {
+  right: 12px;
 }
 
 .load-failure {

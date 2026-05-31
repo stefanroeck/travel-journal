@@ -8,6 +8,7 @@ const state = {
   gpxLayer: null,
   photoLayer: null,
   currentPhotos: [],
+  currentPhotoIndex: -1,
 };
 
 const els = {
@@ -143,7 +144,8 @@ function photoTime(photo) {
     : "No time";
 }
 
-function openPhotoViewer(photo) {
+function renderPhotoViewer() {
+  const photo = state.currentPhotos[state.currentPhotoIndex];
   if (!photo) return;
 
   els.photoViewerImage.src = repoPath(photo.path);
@@ -153,11 +155,25 @@ function openPhotoViewer(photo) {
   document.body.classList.add("viewer-open");
 }
 
+function openPhotoViewer(index) {
+  if (!state.currentPhotos[index]) return;
+  state.currentPhotoIndex = index;
+  renderPhotoViewer();
+}
+
+function navigatePhoto(direction) {
+  if (els.photoViewer.hidden || !state.currentPhotos.length) return;
+  state.currentPhotoIndex =
+    (state.currentPhotoIndex + direction + state.currentPhotos.length) % state.currentPhotos.length;
+  renderPhotoViewer();
+}
+
 function closePhotoViewer() {
   els.photoViewer.hidden = true;
   els.photoViewerImage.src = "";
   els.photoViewerImage.alt = "";
   els.photoViewerCaption.textContent = "";
+  state.currentPhotoIndex = -1;
   document.body.classList.remove("viewer-open");
 }
 
@@ -229,7 +245,7 @@ function renderTrack() {
 function renderPhotoMarkers() {
   state.photoLayer.clearLayers();
 
-  state.currentPhotos.forEach((photo) => {
+  state.currentPhotos.forEach((photo, index) => {
     if (!Number.isFinite(photo.latitude) || !Number.isFinite(photo.longitude)) return;
 
     const marker = L.marker([photo.latitude, photo.longitude], {
@@ -242,7 +258,7 @@ function renderPhotoMarkers() {
       title: photoCaption(photo),
     });
 
-    marker.on("click", () => openPhotoViewer(photo));
+    marker.on("click", () => openPhotoViewer(index));
     marker.addTo(state.photoLayer);
   });
 }
@@ -320,7 +336,7 @@ function bindEvents() {
 
   els.photos.addEventListener("click", (event) => {
     const card = event.target.closest("[data-photo-index]");
-    if (card) openPhotoViewer(state.currentPhotos[Number(card.dataset.photoIndex)]);
+    if (card) openPhotoViewer(Number(card.dataset.photoIndex));
   });
 
   els.photos.addEventListener("keydown", (event) => {
@@ -328,15 +344,24 @@ function bindEvents() {
     const card = event.target.closest("[data-photo-index]");
     if (!card) return;
     event.preventDefault();
-    openPhotoViewer(state.currentPhotos[Number(card.dataset.photoIndex)]);
+    openPhotoViewer(Number(card.dataset.photoIndex));
   });
 
   els.photoViewer.addEventListener("click", (event) => {
+    const navButton = event.target.closest("[data-photo-nav]");
+    if (navButton) {
+      event.stopPropagation();
+      navigatePhoto(Number(navButton.dataset.photoNav));
+      return;
+    }
+
     closePhotoViewer();
   });
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !els.photoViewer.hidden) closePhotoViewer();
+    if (event.key === "ArrowLeft") navigatePhoto(-1);
+    if (event.key === "ArrowRight") navigatePhoto(1);
   });
 }
 
