@@ -135,7 +135,7 @@ function initMap() {
 }
 
 function photoCaption(photo) {
-  return photo.caption?.trim() || "Untitled";
+  return photo.caption?.trim() || photo.location_name?.trim() || "";
 }
 
 function photoTime(photo) {
@@ -148,9 +148,10 @@ function renderPhotoViewer() {
   const photo = state.currentPhotos[state.currentPhotoIndex];
   if (!photo) return;
 
+  const label = photoCaption(photo);
   els.photoViewerImage.src = repoPath(photo.path);
-  els.photoViewerImage.alt = photoCaption(photo);
-  els.photoViewerCaption.textContent = `${photoCaption(photo)} · ${photoTime(photo)}`;
+  els.photoViewerImage.alt = label;
+  els.photoViewerCaption.textContent = label ? `${label} · ${photoTime(photo)}` : photoTime(photo);
   els.photoViewer.hidden = false;
   document.body.classList.add("viewer-open");
 }
@@ -277,10 +278,11 @@ function renderPhotos() {
   els.photos.innerHTML = photos
     .map((photo, index) => {
       const caption = photoCaption(photo);
+      const captionMarkup = caption ? `<strong>${escapeHtml(caption)}</strong>` : "";
       return `<figure class="photo-card" data-photo-index="${index}" tabindex="0">
         <img src="${repoPath(photo.path)}" alt="${escapeHtml(caption)}" loading="lazy">
         <figcaption class="photo-meta">
-          <strong>${escapeHtml(caption)}</strong>
+          ${captionMarkup}
           <span>${escapeHtml(photoTime(photo))}</span>
         </figcaption>
       </figure>`;

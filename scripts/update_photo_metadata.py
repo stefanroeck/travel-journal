@@ -5,6 +5,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import urllib.parse
+import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping
@@ -17,6 +19,8 @@ TRAVELS_JSON = ROOT / "travels" / "travels.json"
 PHOTOS_DIR = ROOT / "photos"
 GPS = ExifTags.GPSTAGS
 TAGS = ExifTags.TAGS
+USER_AGENT = "my-itinerary/0.1 (reverse-geocoding via Nominatim)"
+GEOCODE_CACHE: dict[tuple[float, float], str | None] = {}
 
 
 def decimal_degrees(value: Any, ref: str | None) -> float | None:
@@ -61,7 +65,45 @@ def parse_timestamp(exif: Mapping[str, Any]) -> str | None:
     return parsed.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
-def extract_metadata(path: Path) -> dict[str, Any]:
+def reverse_geocode_city(latitude: float, longitude: float) -> str | None:
+    cache_key = (round(latitude, 5), round(longitude, 5))
+    if cache_key in GEOCODE_CACHE:
+        return GEOCODE_CACHE[cache_key]
+
+    params = urllib.parse.urlencode(
+        {
+            "format": "jsonv2",
+            "lat": f"{latitude:.7f}",
+            "lon": f"{longitude:.7f}",
+            "zoom": 10,
+            "addressdetails": 1,
+        }
+    )
+    url = f"https://nominatim.openstreetmap.org/reverse?{params}"
+    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+
+    city: str | None = None
+    try:
+        with urllib.request.urlopen(request, timeout=10) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+        address = payload.get("address", {})
+        if isinstance(address, dict):
+            city = next(
+                (
+                    address[key]
+                    for key in ("city", "town", "village", "hamlet", "municipality")
+                    if isinstance(address.get(key), str) and address.get(key)
+                ),
+                None,
+            )
+    except Exception:
+        city = None
+
+    GEOCODE_CACHE[cache_key] = city
+    return city
+
+
+def extract_metadata(path: Path, *, lookup_location: bool) -> dict[str, Any]:
     with Image.open(path) as image:
         raw_exif = image.getexif()
         exif = {TAGS.get(tag, tag): value for tag, value in raw_exif.items()}
@@ -81,6 +123,11 @@ def extract_metadata(path: Path) -> dict[str, Any]:
         metadata["longitude"] = round(longitude, 7)
     if timestamp:
         metadata["timestamp"] = timestamp
+    if lookup_location and latitude is not None and longitude is not None:
+        city = reverse_geocode_city(latitude, longitude)
+        metadata["location_looked_up"] = True
+        if city:
+            metadata["location_name"] = city
 
     return metadata
 
@@ -103,11 +150,15 @@ def sync_metadata(overwrite: bool) -> tuple[int, int]:
     added = 0
     for photo_path in sorted(PHOTOS_DIR.glob("*.png")):
         relative_path = photo_path.relative_to(ROOT).as_posix()
-        metadata = extract_metadata(photo_path)
+        photo = photos_by_path.get(relative_path)
+        needs_location_lookup = overwrite or not (
+            isinstance(photo, dict)
+            and photo.get("location_looked_up") is True
+        )
+        metadata = extract_metadata(photo_path, lookup_location=needs_location_lookup)
         if not metadata:
             continue
 
-        photo = photos_by_path.get(relative_path)
         if photo is None:
             photo = {"path": relative_path, "caption": ""}
             timestamp = metadata.get("timestamp", "")
@@ -139,7 +190,7 @@ def main() -> None:
     parser.add_argument(
         "--overwrite",
         action="store_true",
-        help="Replace existing latitude, longitude, and timestamp values.",
+        help="Replace existing latitude, longitude, timestamp, and location_name values.",
     )
     args = parser.parse_args()
 
