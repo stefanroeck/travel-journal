@@ -148,7 +148,10 @@ def sync_metadata(overwrite: bool) -> tuple[int, int]:
 
     updated = 0
     added = 0
-    for photo_path in sorted(PHOTOS_DIR.glob("*.png")):
+    photo_files = sorted(
+        path for path in PHOTOS_DIR.iterdir() if path.is_file() and path.suffix.lower() == ".png"
+    )
+    for photo_path in photo_files:
         relative_path = photo_path.relative_to(ROOT).as_posix()
         photo = photos_by_path.get(relative_path)
         needs_location_lookup = overwrite or not (

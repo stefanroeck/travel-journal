@@ -92,7 +92,19 @@ function getTrack() {
 }
 
 function getDayPhotos() {
-  return (state.travel.photos || []).filter((photo) => photoDate(photo) === state.selectedDate);
+  return (state.travel.photos || [])
+    .filter((photo) => photoDate(photo) === state.selectedDate)
+    .slice()
+    .sort((a, b) => {
+      const aTimestamp = a.timestamp || "";
+      const bTimestamp = b.timestamp || "";
+      if (aTimestamp && bTimestamp && aTimestamp !== bTimestamp) {
+        return aTimestamp.localeCompare(bTimestamp);
+      }
+      if (aTimestamp && !bTimestamp) return -1;
+      if (!aTimestamp && bTimestamp) return 1;
+      return (a.path || "").localeCompare(b.path || "");
+    });
 }
 
 function formatTime(date) {
