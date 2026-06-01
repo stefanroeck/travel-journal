@@ -138,7 +138,8 @@ function renderTrackStats(gpxLayer) {
 
 function initMap() {
   state.map = L.map("map", {
-    scrollWheelZoom: true,
+    // Let the page handle wheel/trackpad scrolling instead of zooming the map.
+    scrollWheelZoom: false,
   }).setView([39.9, 4.25], 11);
 
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
