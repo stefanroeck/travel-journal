@@ -184,7 +184,7 @@ h2 {
   overflow-x: auto;
   width: 100%;
   min-width: 0;
-  padding-bottom: 14px;
+  padding: 10px 0 14px 0;
   scroll-snap-type: x proximity;
 }
 
@@ -226,6 +226,15 @@ h2 {
   cursor: zoom-in;
   margin: 0;
   scroll-snap-align: start;
+}
+
+.photo-card.selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 5px rgba(22, 122, 114, 0.28);
+}
+
+.photo-card.selected img {
+  border-radius: 0;
 }
 
 .photo-card:focus-visible {

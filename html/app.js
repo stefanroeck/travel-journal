@@ -9,6 +9,7 @@ const state = {
   photoLayer: null,
   currentPhotos: [],
   currentPhotoIndex: -1,
+  selectedPhotoIndex: -1,
 };
 
 const els = {
@@ -171,7 +172,28 @@ function renderPhotoViewer() {
 function openPhotoViewer(index) {
   if (!state.currentPhotos[index]) return;
   state.currentPhotoIndex = index;
+  state.selectedPhotoIndex = index;
+  renderPhotos();
   renderPhotoViewer();
+}
+
+function selectPhotoInPanel(index) {
+  if (!state.currentPhotos[index]) return;
+
+  if (!els.photoViewer.hidden) closePhotoViewer();
+  state.selectedPhotoIndex = index;
+
+  const card = els.photos.querySelector(`[data-photo-index="${index}"]`);
+  if (card) {
+    const container = els.photos;
+    const targetLeft =
+      card.offsetLeft - container.clientWidth / 2 + card.clientWidth / 2;
+    const maxScrollLeft = container.scrollWidth - container.clientWidth;
+    container.scrollTo({
+      left: Math.max(0, Math.min(targetLeft, maxScrollLeft)),
+      behavior: "smooth",
+    });
+  }
 }
 
 function navigatePhoto(direction) {
@@ -271,7 +293,7 @@ function renderPhotoMarkers() {
       title: photoCaption(photo),
     });
 
-    marker.on("click", () => openPhotoViewer(index));
+    marker.on("click", () => selectPhotoInPanel(index));
     marker.addTo(state.photoLayer);
   });
 }
@@ -279,6 +301,9 @@ function renderPhotoMarkers() {
 function renderPhotos() {
   const photos = getDayPhotos();
   state.currentPhotos = photos;
+  if (state.selectedPhotoIndex >= photos.length) {
+    state.selectedPhotoIndex = -1;
+  }
   els.photoCount.textContent = `${photos.length} ${photos.length === 1 ? "photo" : "photos"}`;
   renderPhotoMarkers();
 
@@ -291,7 +316,8 @@ function renderPhotos() {
     .map((photo, index) => {
       const caption = photoCaption(photo);
       const captionMarkup = caption ? `<strong>${escapeHtml(caption)}</strong>` : "";
-      return `<figure class="photo-card" data-photo-index="${index}" tabindex="0">
+      const selected = index === state.selectedPhotoIndex ? " selected" : "";
+      return `<figure class="photo-card${selected}" data-photo-index="${index}" tabindex="0">
         <img src="${repoPath(photo.path)}" alt="${escapeHtml(caption)}" loading="lazy">
         <figcaption class="photo-meta">
           ${captionMarkup}
@@ -323,6 +349,8 @@ async function renderNotes() {
 
 async function selectDay(date) {
   state.selectedDate = date;
+  state.selectedPhotoIndex = -1;
+  closePhotoViewer();
   renderDayNav();
   renderTrack();
   renderPhotos();
