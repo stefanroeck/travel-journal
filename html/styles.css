@@ -127,6 +127,8 @@ h2 {
   border-radius: 8px;
   background: var(--panel);
   box-shadow: var(--shadow);
+  min-width: 0;
+  max-width: 100%;
 }
 
 .map-panel {
@@ -145,12 +147,18 @@ h2 {
   display: grid;
   align-content: start;
   gap: 18px;
+  min-width: 0;
 }
 
 .side-panel {
   display: grid;
   align-content: start;
   gap: 18px;
+  min-width: 0;
+}
+
+.layout > * {
+  min-width: 0;
 }
 
 .content-section {
@@ -171,9 +179,13 @@ h2 {
 }
 
 .photo-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
   gap: 10px;
+  overflow-x: auto;
+  width: 100%;
+  min-width: 0;
+  padding-bottom: 14px;
+  scroll-snap-type: x proximity;
 }
 
 .stats-grid {
@@ -205,12 +217,15 @@ h2 {
 }
 
 .photo-card {
+  flex: 0 0 clamp(180px, 22vw, 260px);
+  min-width: 0;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fafafa;
   cursor: zoom-in;
   margin: 0;
+  scroll-snap-align: start;
 }
 
 .photo-card:focus-visible {
@@ -257,13 +272,16 @@ h2 {
   border: 1px dashed var(--line);
   border-radius: 8px;
   color: var(--muted);
-  grid-column: 1 / -1;
   padding: 18px;
 }
 
 .error-state {
   border-color: #c75c4a;
   color: #943a2f;
+}
+
+.photo-grid .empty-state {
+  flex: 1 0 100%;
 }
 
 .map-error {
@@ -434,7 +452,6 @@ h2 {
   }
 
   .side-panel,
-  .photo-grid,
   .stats-grid {
     grid-template-columns: 1fr;
   }
