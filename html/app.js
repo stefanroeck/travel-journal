@@ -1,4 +1,8 @@
 const DATA_URL = "../travels/travels.json";
+const URL_PARAMS = {
+  travel: "travel",
+  day: "day",
+};
 
 const state = {
   travels: [],
@@ -70,6 +74,36 @@ function dayHasContent(travel, date) {
 function getTravelDays(travel) {
   const range = dateRange(travel.start_date, travel.end_date);
   return range.filter((date) => dayHasContent(travel, date));
+}
+
+function getUrlState() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    travelSlug: params.get(URL_PARAMS.travel),
+    date: params.get(URL_PARAMS.day),
+  };
+}
+
+function setUrlState({ travelSlug, date }, { replace = false } = {}) {
+  const url = new URL(window.location.href);
+  if (travelSlug) {
+    url.searchParams.set(URL_PARAMS.travel, travelSlug);
+  } else {
+    url.searchParams.delete(URL_PARAMS.travel);
+  }
+
+  if (date) {
+    url.searchParams.set(URL_PARAMS.day, date);
+  } else {
+    url.searchParams.delete(URL_PARAMS.day);
+  }
+
+  const method = replace ? "replaceState" : "pushState";
+  window.history[method]({ travelSlug, date }, "", url);
+}
+
+function isValidDay(travel, date) {
+  return getTravelDays(travel).includes(date);
 }
 
 function escapeHtml(value) {
@@ -374,7 +408,7 @@ async function renderNotes() {
   }
 }
 
-async function selectDay(date) {
+async function selectDay(date, { updateUrl = true } = {}) {
   state.selectedDate = date;
   state.selectedPhotoIndex = -1;
   closePhotoViewer();
@@ -382,15 +416,26 @@ async function selectDay(date) {
   renderTrack();
   renderPhotos();
   await renderNotes();
+  if (updateUrl) {
+    setUrlState({ travelSlug: state.travel.slug, date }, { replace: false });
+  }
 }
 
-async function selectTravel(slug) {
+async function selectTravel(slug, { replaceUrl = false } = {}) {
   state.travel = state.travels.find((travel) => travel.slug === slug) || state.travels[0];
   els.title.textContent = state.travel.title;
   els.travelSelect.value = state.travel.slug;
 
   const days = getTravelDays(state.travel);
-  await selectDay(days[0] || state.travel.start_date);
+  const urlState = getUrlState();
+  const requestedDay = urlState.travelSlug === state.travel.slug ? urlState.date : null;
+  const selectedDay = requestedDay && isValidDay(state.travel, requestedDay) ? requestedDay : days[0] || state.travel.start_date;
+
+  if (replaceUrl) {
+    setUrlState({ travelSlug: state.travel.slug, date: selectedDay }, { replace: true });
+  }
+
+  await selectDay(selectedDay, { updateUrl: !replaceUrl });
 }
 
 function bindEvents() {
@@ -469,7 +514,10 @@ async function load() {
     initMap();
     renderTravelOptions();
     bindEvents();
-    await selectTravel(state.travels[0].slug);
+
+    const urlState = getUrlState();
+    const initialTravel = state.travels.find((travel) => travel.slug === urlState.travelSlug) || state.travels[0];
+    await selectTravel(initialTravel.slug, { replaceUrl: true });
   } catch (error) {
     document.body.innerHTML = `<main class="load-failure">
       <h1>Could not load itinerary</h1>
@@ -477,5 +525,19 @@ async function load() {
     </main>`;
   }
 }
+
+window.addEventListener("popstate", () => {
+  const urlState = getUrlState();
+  const travel = state.travels.find((item) => item.slug === urlState.travelSlug) || state.travels[0];
+  if (!travel) return;
+
+  state.travel = travel;
+  els.title.textContent = travel.title;
+  els.travelSelect.value = travel.slug;
+
+  const days = getTravelDays(travel);
+  const date = urlState.date && isValidDay(travel, urlState.date) ? urlState.date : days[0] || travel.start_date;
+  selectDay(date, { updateUrl: false });
+});
 
 load();
