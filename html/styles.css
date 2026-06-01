@@ -319,6 +319,16 @@ h2 {
   transform: rotate(-45deg);
 }
 
+.photo-marker--hovered span {
+  background: #f59e0b;
+  box-shadow: 0 6px 15px rgba(245, 158, 11, 0.38);
+}
+
+.photo-marker--selected:not(.photo-marker--hovered) span {
+  background: #167a72;
+  box-shadow: 0 6px 15px rgba(22, 122, 114, 0.38);
+}
+
 .photo-marker span::after {
   content: "";
   position: absolute;

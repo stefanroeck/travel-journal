@@ -7,9 +7,11 @@ const state = {
   map: null,
   gpxLayer: null,
   photoLayer: null,
+  photoMarkers: [],
   currentPhotos: [],
   currentPhotoIndex: -1,
   selectedPhotoIndex: -1,
+  hoveredPhotoIndex: -1,
 };
 
 const els = {
@@ -147,6 +149,15 @@ function initMap() {
   state.photoLayer = L.layerGroup().addTo(state.map);
 }
 
+function updatePhotoMarkerHighlights() {
+  state.photoMarkers.forEach((marker, index) => {
+    const icon = marker._icon;
+    if (!icon) return;
+    icon.classList.toggle("photo-marker--hovered", index === state.hoveredPhotoIndex);
+    icon.classList.toggle("photo-marker--selected", index === state.selectedPhotoIndex);
+  });
+}
+
 function photoCaption(photo) {
   return photo.caption?.trim() || photo.location_name?.trim() || "";
 }
@@ -279,6 +290,7 @@ function renderTrack() {
 
 function renderPhotoMarkers() {
   state.photoLayer.clearLayers();
+  state.photoMarkers = [];
 
   state.currentPhotos.forEach((photo, index) => {
     if (!Number.isFinite(photo.latitude) || !Number.isFinite(photo.longitude)) return;
@@ -294,8 +306,18 @@ function renderPhotoMarkers() {
     });
 
     marker.on("click", () => selectPhotoInPanel(index));
+    marker.on("add", updatePhotoMarkerHighlights);
     marker.addTo(state.photoLayer);
+    state.photoMarkers[index] = marker;
   });
+
+  updatePhotoMarkerHighlights();
+}
+
+function setHoveredPhotoIndex(index) {
+  if (state.hoveredPhotoIndex === index) return;
+  state.hoveredPhotoIndex = index;
+  updatePhotoMarkerHighlights();
 }
 
 function renderPhotos() {
@@ -303,6 +325,9 @@ function renderPhotos() {
   state.currentPhotos = photos;
   if (state.selectedPhotoIndex >= photos.length) {
     state.selectedPhotoIndex = -1;
+  }
+  if (state.hoveredPhotoIndex >= photos.length) {
+    state.hoveredPhotoIndex = -1;
   }
   els.photoCount.textContent = `${photos.length} ${photos.length === 1 ? "photo" : "photos"}`;
   renderPhotoMarkers();
@@ -381,12 +406,33 @@ function bindEvents() {
     if (card) openPhotoViewer(Number(card.dataset.photoIndex));
   });
 
+  els.photos.addEventListener("mouseover", (event) => {
+    const card = event.target.closest("[data-photo-index]");
+    if (!card) return;
+    setHoveredPhotoIndex(Number(card.dataset.photoIndex));
+  });
+
+  els.photos.addEventListener("mouseout", (event) => {
+    if (event.relatedTarget && event.currentTarget.contains(event.relatedTarget)) return;
+    setHoveredPhotoIndex(-1);
+  });
+
   els.photos.addEventListener("keydown", (event) => {
     if (event.key !== "Enter" && event.key !== " ") return;
     const card = event.target.closest("[data-photo-index]");
     if (!card) return;
     event.preventDefault();
     openPhotoViewer(Number(card.dataset.photoIndex));
+  });
+
+  els.photos.addEventListener("focusin", (event) => {
+    const card = event.target.closest("[data-photo-index]");
+    if (card) setHoveredPhotoIndex(Number(card.dataset.photoIndex));
+  });
+
+  els.photos.addEventListener("focusout", (event) => {
+    if (event.currentTarget.contains(event.relatedTarget)) return;
+    setHoveredPhotoIndex(-1);
   });
 
   els.photoViewer.addEventListener("click", (event) => {
