@@ -193,6 +193,7 @@ function selectPhotoInPanel(index) {
 
   if (!els.photoViewer.hidden) closePhotoViewer();
   state.selectedPhotoIndex = index;
+  renderPhotos();
 
   const card = els.photos.querySelector(`[data-photo-index="${index}"]`);
   if (card) {
