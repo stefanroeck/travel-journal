@@ -157,6 +157,24 @@ function formatMeters(value) {
   return Number.isFinite(value) ? `${Math.round(value)} m` : "n/a";
 }
 
+const TRACK_SUMMARY_ICONS = {
+  Start: "fas fa-location-dot",
+  End: "fas fa-flag-checkered",
+  Distance: "fas fa-route",
+  Elevation: "fas fa-mountain",
+};
+
+function renderTrackSummaryHtml(cards) {
+  return cards
+    .map(([label, value]) => `
+      <div class="track-summary__stat" title="${escapeHtml(label)}">
+        <i class="${TRACK_SUMMARY_ICONS[label]}" aria-hidden="true"></i>
+        <span>${escapeHtml(value)}</span>
+      </div>`
+    )
+    .join("");
+}
+
 function renderTrackStats(gpxLayer) {
   const cards = [
     ["Start", gpxLayer.get_start_time() ? formatTime(gpxLayer.get_start_time()) : "n/a"],
@@ -169,9 +187,7 @@ function renderTrackStats(gpxLayer) {
     els.trackName.textContent = gpxLayer.get_name() || "";
   }
 
-  els.trackStats.innerHTML = cards
-    .map(([label, value]) => `<div class="stat-card"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`)
-    .join("");
+  els.trackStats.innerHTML = renderTrackSummaryHtml(cards);
 }
 
 function renderCombinedTrackStats(layers) {
@@ -212,9 +228,7 @@ function renderCombinedTrackStats(layers) {
     ["Elevation", `+${formatMeters(totalGain)} / -${formatMeters(totalLoss)}`],
   ];
 
-  els.trackStats.innerHTML = cards
-    .map(([label, value]) => `<div class="stat-card"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`)
-    .join("");
+  els.trackStats.innerHTML = renderTrackSummaryHtml(cards);
 }
 
 function initMap() {
@@ -384,8 +398,6 @@ function renderTrack() {
     els.trackStats.innerHTML = '<div class="empty-state">No track for this day.</div>';
     return;
   }
-
-  els.trackStats.innerHTML = '<div class="empty-state">Loading track statistics...</div>';
 
   const renderId = Symbol("track-render");
   state.trackRenderId = renderId;
