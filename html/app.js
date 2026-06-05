@@ -164,14 +164,35 @@ const TRACK_SUMMARY_ICONS = {
   Elevation: "fas fa-mountain",
 };
 
+function chooseWeatherIconClass(weathercode) {
+  // Map Open-Meteo/WMO weather codes to Weather Icons classes
+  // Use day variants for general daytime display where applicable
+  if (weathercode >= 95) return "wi wi-thunderstorm";
+  if (weathercode >= 80) return "wi wi-showers";
+  if (weathercode >= 61) return "wi wi-rain";
+  if (weathercode >= 51) return "wi wi-sprinkle";
+  if (weathercode >= 71) return "wi wi-snow";
+  if (weathercode === 45 || weathercode === 48) return "wi wi-fog";
+  if (weathercode === 0) return "wi wi-day-sunny"; // clear
+  if (weathercode === 1) return "wi wi-day-sunny"; // mainly clear
+  if (weathercode === 2) return "wi wi-day-cloudy"; // partly cloudy
+  if (weathercode === 3) return "wi wi-cloudy"; // overcast
+  return "wi wi-cloud"; // default cloudy
+}
+
 function renderTrackSummaryHtml(cards) {
   return cards
-    .map(([label, value]) => `
+    .map(([label, value]) => {
+      const iconClass = TRACK_SUMMARY_ICONS[label];
+      // Allow the Weather value to contain inline HTML (icon + escaped text)
+      const valueHtml = label === "Weather" ? value : escapeHtml(value);
+      const iconHtml = iconClass ? `<i class="${iconClass}" aria-hidden="true"></i>` : "";
+      return `
       <div class="track-summary__stat" title="${escapeHtml(label)}">
-        <i class="${TRACK_SUMMARY_ICONS[label]}" aria-hidden="true"></i>
-        <span>${escapeHtml(value)}</span>
-      </div>`
-    )
+        ${iconHtml}
+        <span>${valueHtml}</span>
+      </div>`;
+    })
     .join("");
 }
 
@@ -182,6 +203,19 @@ function renderTrackStats(gpxLayer) {
     ["Distance", Number.isFinite(gpxLayer.get_distance()) ? `${(gpxLayer.get_distance() / 1000).toFixed(1)} km` : "n/a"],
     ["Elevation", `+${formatMeters(gpxLayer.get_elevation_gain())} / -${formatMeters(gpxLayer.get_elevation_loss())}`],
   ];
+
+  // Attach weather info from travels data if available for the selected date
+  const trackData = (state.travel?.tracks || []).find((t) => t.date === state.selectedDate && t.weather);
+  if (trackData?.weather) {
+    const w = trackData.weather;
+    // Show up/down arrows for high/low temps and put the weather icon inline.
+    const weatherIcon = chooseWeatherIconClass(w.weathercode);
+    const weatherLabel = `
+      <i class="fas fa-arrow-up" aria-hidden="true"></i> ${escapeHtml(String(w.max_temp_c))}°C
+      <i class="fas fa-arrow-down" aria-hidden="true"></i> ${escapeHtml(String(w.min_temp_c))}°C
+      · <i class="${weatherIcon}" aria-hidden="true"></i> ${escapeHtml(w.condition)}`;
+    cards.push(["Weather", weatherLabel]);
+  }
 
   if (state.gpxLayers.length <= 1) {
     els.trackName.textContent = gpxLayer.get_name() || "";
@@ -233,6 +267,19 @@ function renderCombinedTrackStats(layers) {
     ["Distance", totalDistance ? `${(totalDistance / 1000).toFixed(1)} km` : "n/a"],
     ["Elevation", `+${formatMeters(totalGain)} / -${formatMeters(totalLoss)}`],
   ];
+
+  // If any of the travel tracks for the selected date contains weather, show it
+  const trackData = (state.travel?.tracks || []).find((t) => t.date === state.selectedDate && t.weather);
+  if (trackData?.weather) {
+    const w = trackData.weather;
+    // Show up/down arrows for high/low temps and put the weather icon inline.
+    const weatherIcon = chooseWeatherIconClass(w.weathercode);
+    const weatherLabel = `
+      <i class="fas fa-arrow-up" aria-hidden="true"></i> ${escapeHtml(String(w.max_temp_c))}°C
+      <i class="fas fa-arrow-down" aria-hidden="true"></i> ${escapeHtml(String(w.min_temp_c))}°C
+      · <i class="${weatherIcon}" aria-hidden="true"></i> ${escapeHtml(w.condition)}`;
+    cards.push(["Weather", weatherLabel]);
+  }
 
   els.trackStats.innerHTML = renderTrackSummaryHtml(cards);
 }
