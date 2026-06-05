@@ -142,18 +142,27 @@ h2 {
   padding: 10px 12px;
 }
 
+.day-nav-group {
+  position: relative;
+  margin: 0 clamp(16px, 4vw, 48px);
+  margin-bottom: 18px;
+}
+
 .day-nav {
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  padding: 0 clamp(16px, 4vw, 48px) 18px;
+  padding: 14px 14px 8px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px 12px 0 0;
 }
 
 .day-button {
   flex: 0 0 auto;
   min-width: 118px;
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 10px;
   background: rgba(255, 255, 255, 0.72);
   color: var(--ink);
   cursor: pointer;
@@ -173,6 +182,11 @@ h2 {
   border-color: var(--accent);
   background: var(--accent);
   color: #fff;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-color: transparent;
+  position: relative;
+  z-index: 1;
 }
 
 .day-button.active span {
@@ -180,18 +194,21 @@ h2 {
 }
 
 .track-summary {
+  position: relative;
+  z-index: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin: 0 clamp(16px, 4vw, 48px);
-  margin-bottom: 18px;
-  padding: 8px 14px;
+  margin: 0;
+  padding: 10px 14px;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-top: 0;
+  border-radius: 0 0 12px 12px;
   background: var(--panel);
   box-shadow: var(--shadow);
   min-height: 42px;
+  width: 100%;
 }
 
 .track-summary__title {
@@ -216,6 +233,7 @@ h2 {
   align-items: center;
   overflow-x: auto;
   min-width: 0;
+  padding-bottom: 2px;
 }
 
 .track-summary__stat {
