@@ -10,6 +10,7 @@ const state = {
   selectedDate: null,
   map: null,
   gpxLayers: [],
+  trackRenderId: null,
   photoLayer: null,
   photoMarkers: [],
   currentPhotos: [],
@@ -343,6 +344,8 @@ function renderTrack() {
 
   els.trackStats.innerHTML = '<div class="empty-state">Loading track statistics...</div>';
 
+  const renderId = Symbol("track-render");
+  state.trackRenderId = renderId;
   let bounds = null;
   const loadedLayers = [];
   let hasError = false;
@@ -363,13 +366,14 @@ function renderTrack() {
       },
     })
       .on("loaded", (event) => {
-        if (hasError) return;
+        if (hasError || state.trackRenderId !== renderId) return;
 
         loadedLayers.push(event.target);
-        bounds = bounds ? bounds.extend(event.target.getBounds()) : event.target.getBounds();
-        state.map.fitBounds(bounds, { padding: [52, 52] });
+        const trackBounds = event.target.getBounds();
+        bounds = bounds ? bounds.extend(trackBounds) : trackBounds;
 
         if (loadedLayers.length === tracks.length) {
+          state.map.fitBounds(bounds, { padding: [52, 52] });
           renderCombinedTrackStats(loadedLayers);
         }
       })
