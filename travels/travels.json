@@ -44,7 +44,7 @@
         },
         {
           "path": "photos/IMG_5004.png",
-          "caption": "",
+          "caption": "Blick aus dem Flugzeug in Richtung Nordosten",
           "latitude": 40.1317056,
           "longitude": 3.9639278,
           "timestamp": "2026-05-21T07:28:29Z",
@@ -52,12 +52,12 @@
         },
         {
           "path": "photos/IMG_5008.png",
-          "caption": "",
+          "caption": "Rucksack gut verpackt am Flughafen",
           "timestamp": "2026-05-21T08:03:26Z"
         },
         {
           "path": "photos/IMG_5016.png",
-          "caption": "",
+          "caption": "Das hätte ein schöner Blick auf die Altstadt sein können...",
           "latitude": 39.8945056,
           "longitude": 4.2646111,
           "timestamp": "2026-05-21T10:30:47Z",
@@ -338,6 +338,30 @@
         {
           "date": "2026-05-22",
           "path": "tracks/65556-Activity_2026-05-22_07-00_179670557.gpx"
+        },
+        {
+          "date": "2026-05-23",
+          "path": "tracks/65556-Activity_2026-05-23_06-53_180351205.gpx"
+        },
+        {
+          "date": "2026-05-23",
+          "path": "tracks/65556-Activity_2026-05-23_16-33_180351202.gpx"
+        },
+        {
+          "date": "2026-05-24",
+          "path": "tracks/65556-Activity_2026-05-24_06-56_179719671.gpx"
+        },
+        {
+          "date": "2026-05-25",
+          "path": "tracks/65556-Activity_2026-05-25_06-38_179886752.gpx"
+        },
+        {
+          "date": "2026-05-26",
+          "path": "tracks/65556-Activity_2026-05-26_06-30_179965478.gpx"
+        },
+        {
+          "date": "2026-05-27",
+          "path": "tracks/65556-Activity_2026-05-27_08-15_180104816.gpx"
         }
       ],
       "notes": [
