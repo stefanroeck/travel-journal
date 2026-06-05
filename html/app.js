@@ -21,7 +21,8 @@ const state = {
 
 const els = {
   title: document.querySelector("#travel-title"),
-  travelSelect: document.querySelector("#travel-select"),
+  travelMenuButton: document.querySelector("#travel-menu-button"),
+  travelMenu: document.querySelector("#travel-menu"),
   dayNav: document.querySelector("#day-nav"),
   trackName: document.querySelector("#track-name"),
   trackStats: document.querySelector("#track-stats"),
@@ -275,6 +276,11 @@ function renderPhotoViewer() {
   document.body.classList.add("viewer-open");
 }
 
+function closeTravelMenu() {
+  els.travelMenu.hidden = true;
+  els.travelMenuButton.setAttribute("aria-expanded", "false");
+}
+
 function updatePhotoSelection(index) {
   if (state.selectedPhotoIndex === index) return;
 
@@ -304,10 +310,10 @@ function scrollPhotoIntoView(index) {
   if (!card) return;
 
   const container = els.photos;
-  const targetLeft = card.offsetLeft - container.clientWidth / 2 + card.clientWidth / 2;
-  const maxScrollLeft = container.scrollWidth - container.clientWidth;
+  const targetTop = card.offsetTop - container.clientHeight / 2 + card.clientHeight / 2;
+  const maxScrollTop = container.scrollHeight - container.clientHeight;
   container.scrollTo({
-    left: Math.max(0, Math.min(targetLeft, maxScrollLeft)),
+    top: Math.max(0, Math.min(targetTop, maxScrollTop)),
     behavior: "smooth",
   });
 }
@@ -339,8 +345,12 @@ function closePhotoViewer() {
 }
 
 function renderTravelOptions() {
-  els.travelSelect.innerHTML = state.travels
-    .map((travel) => `<option value="${escapeHtml(travel.slug)}">${escapeHtml(travel.title)}</option>`)
+  const currentSlug = state.travel?.slug;
+  els.travelMenu.innerHTML = state.travels
+    .map((travel) => {
+      const currentAttr = travel.slug === currentSlug ? ' aria-current="true"' : "";
+      return `<button type="button" class="travel-menu__item" data-travel-slug="${escapeHtml(travel.slug)}"${currentAttr}>${escapeHtml(travel.title)}</button>`;
+    })
     .join("");
 }
 
@@ -525,7 +535,8 @@ async function selectDay(date, { updateUrl = true } = {}) {
 async function selectTravel(slug, { replaceUrl = false } = {}) {
   state.travel = state.travels.find((travel) => travel.slug === slug) || state.travels[0];
   els.title.textContent = state.travel.title;
-  els.travelSelect.value = state.travel.slug;
+  renderTravelOptions();
+  closeTravelMenu();
 
   const days = getTravelDays(state.travel);
   const urlState = getUrlState();
@@ -540,8 +551,26 @@ async function selectTravel(slug, { replaceUrl = false } = {}) {
 }
 
 function bindEvents() {
-  els.travelSelect.addEventListener("change", (event) => {
-    selectTravel(event.target.value);
+  els.travelMenuButton.addEventListener("click", () => {
+    const open = els.travelMenu.hidden;
+    els.travelMenu.hidden = !open;
+    els.travelMenuButton.setAttribute("aria-expanded", String(open));
+  });
+
+  els.travelMenu.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-travel-slug]");
+    if (!button) return;
+    selectTravel(button.dataset.travelSlug);
+  });
+
+  document.addEventListener("click", (event) => {
+    if (
+      !els.travelMenu.hidden &&
+      !event.composedPath().includes(els.travelMenu) &&
+      !event.composedPath().includes(els.travelMenuButton)
+    ) {
+      closeTravelMenu();
+    }
   });
 
   els.dayNav.addEventListener("click", (event) => {
@@ -595,7 +624,17 @@ function bindEvents() {
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !els.photoViewer.hidden) closePhotoViewer();
+    if (event.key === "Escape") {
+      if (!els.photoViewer.hidden) {
+        closePhotoViewer();
+        return;
+      }
+      if (!els.travelMenu.hidden) {
+        closeTravelMenu();
+        return;
+      }
+    }
+
     if (event.key === "ArrowLeft") navigatePhoto(-1);
     if (event.key === "ArrowRight") navigatePhoto(1);
   });
@@ -634,7 +673,7 @@ window.addEventListener("popstate", () => {
 
   state.travel = travel;
   els.title.textContent = travel.title;
-  els.travelSelect.value = travel.slug;
+  closeTravelMenu();
 
   const days = getTravelDays(travel);
   const date = urlState.date && isValidDay(travel, urlState.date) ? urlState.date : days[0] || travel.start_date;

@@ -12,40 +12,24 @@
   </head>
   <body>
     <header class="app-header">
-      <div>
-        <p class="eyebrow">Travel journal</p>
-        <h1 id="travel-title">My Itinerary</h1>
+      <div class="app-header__title-group">
+        <button id="travel-menu-button" class="menu-button" aria-label="Open travel menu" aria-expanded="false" aria-controls="travel-menu">
+          <span aria-hidden="true">☰</span>
+        </button>
+        <div>
+          <p class="eyebrow">Travel journal</p>
+          <h1 id="travel-title">My Itinerary</h1>
+        </div>
       </div>
-      <label class="travel-picker">
-        <span>Travel</span>
-        <select id="travel-select" aria-label="Select travel"></select>
-      </label>
+      <nav id="travel-menu" class="travel-menu" aria-label="Select travel" hidden></nav>
     </header>
 
     <nav id="day-nav" class="day-nav" aria-label="Travel days"></nav>
 
     <main class="layout">
-      <div class="main-panel">
+      <div class="left-column">
         <section class="map-panel" aria-label="Track map">
           <div id="map"></div>
-        </section>
-
-        <section class="content-section photos-section">
-          <div class="section-heading">
-            <h2>Photos</h2>
-            <span id="photo-count"></span>
-          </div>
-          <div id="photos" class="photo-grid"></div>
-        </section>
-      </div>
-
-      <aside class="side-panel" aria-label="Day details">
-        <section class="content-section">
-          <div class="section-heading">
-            <h2>Track</h2>
-            <span id="track-name"></span>
-          </div>
-          <div id="track-stats" class="stats-grid"></div>
         </section>
 
         <section class="content-section notes-section">
@@ -54,6 +38,24 @@
             <span id="note-date"></span>
           </div>
           <article id="notes" class="notes"></article>
+        </section>
+      </div>
+
+      <aside class="right-column" aria-label="Day details">
+        <section class="content-section">
+          <div class="section-heading">
+            <h2>Track</h2>
+            <span id="track-name"></span>
+          </div>
+          <div id="track-stats" class="stats-grid"></div>
+        </section>
+
+        <section class="content-section photos-section">
+          <div class="section-heading">
+            <h2>Photos</h2>
+            <span id="photo-count"></span>
+          </div>
+          <div id="photos" class="photo-grid"></div>
         </section>
       </aside>
     </main>
