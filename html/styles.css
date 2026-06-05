@@ -41,6 +41,10 @@ body.viewer-open {
   gap: 16px;
 }
 
+.app-header__title-group {
+  position: relative;
+}
+
 .menu-button {
   display: inline-flex;
   align-items: center;
@@ -63,7 +67,7 @@ body.viewer-open {
 
 .travel-menu {
   position: absolute;
-  top: calc(100% + 12px);
+  top: calc(100%);
   left: 0;
   width: min(320px, 90vw);
   max-width: 320px;
