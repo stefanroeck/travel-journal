@@ -275,11 +275,27 @@ function renderPhotoViewer() {
   document.body.classList.add("viewer-open");
 }
 
+function updatePhotoSelection(index) {
+  if (state.selectedPhotoIndex === index) return;
+
+  const previous = els.photos.querySelector(`[data-photo-index="${state.selectedPhotoIndex}"]`);
+  if (previous) {
+    previous.classList.remove("selected");
+  }
+
+  const next = els.photos.querySelector(`[data-photo-index="${index}"]`);
+  if (next) {
+    next.classList.add("selected");
+  }
+
+  state.selectedPhotoIndex = index;
+  updatePhotoMarkerHighlights();
+}
+
 function openPhotoViewer(index) {
   if (!state.currentPhotos[index]) return;
   state.currentPhotoIndex = index;
-  state.selectedPhotoIndex = index;
-  renderPhotos();
+  updatePhotoSelection(index);
   renderPhotoViewer();
 }
 
@@ -300,8 +316,7 @@ function selectPhotoInPanel(index) {
   if (!state.currentPhotos[index]) return;
 
   if (!els.photoViewer.hidden) closePhotoViewer();
-  state.selectedPhotoIndex = index;
-  renderPhotos();
+  updatePhotoSelection(index);
   scrollPhotoIntoView(index);
 }
 
@@ -309,8 +324,7 @@ function navigatePhoto(direction) {
   if (els.photoViewer.hidden || !state.currentPhotos.length) return;
   state.currentPhotoIndex =
     (state.currentPhotoIndex + direction + state.currentPhotos.length) % state.currentPhotos.length;
-  state.selectedPhotoIndex = state.currentPhotoIndex;
-  renderPhotos();
+  updatePhotoSelection(state.currentPhotoIndex);
   renderPhotoViewer();
   scrollPhotoIntoView(state.selectedPhotoIndex);
 }
