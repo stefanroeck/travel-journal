@@ -265,7 +265,7 @@ h2 {
 
 .layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 360px);
   gap: 18px;
   padding: 0 clamp(16px, 4vw, 48px) 32px;
 }
@@ -326,7 +326,7 @@ h2 {
   display: grid;
   gap: 10px;
   overflow-y: auto;
-  max-height: calc(100vh - 330px);
+  max-height: calc(100vh);
   padding: 0;
 }
 

@@ -219,7 +219,13 @@ function renderCombinedTrackStats(layers) {
     0
   );
 
-  els.trackName.textContent = `${layers.length} tracks`;
+  const trackNames = layers
+    .map((layer) => layer.get_name())
+    .filter(Boolean);
+
+  els.trackName.textContent = trackNames.length
+    ? trackNames.join(", ")
+    : `${layers.length} tracks`;
 
   const cards = [
     ["Start", startTimes[0] ? formatTime(startTimes[0]) : "n/a"],
@@ -324,7 +330,8 @@ function scrollPhotoIntoView(index) {
   if (!card) return;
 
   const container = els.photos;
-  const targetTop = card.offsetTop - container.clientHeight / 2 + card.clientHeight / 2;
+  const topPadding = 360; // Space to keep at the top when scrolling
+  const targetTop = card.offsetTop - topPadding;
   const maxScrollTop = container.scrollHeight - container.clientHeight;
   container.scrollTo({
     top: Math.max(0, Math.min(targetTop, maxScrollTop)),
