@@ -283,31 +283,36 @@ function openPhotoViewer(index) {
   renderPhotoViewer();
 }
 
+function scrollPhotoIntoView(index) {
+  const card = els.photos.querySelector(`[data-photo-index="${index}"]`);
+  if (!card) return;
+
+  const container = els.photos;
+  const targetLeft = card.offsetLeft - container.clientWidth / 2 + card.clientWidth / 2;
+  const maxScrollLeft = container.scrollWidth - container.clientWidth;
+  container.scrollTo({
+    left: Math.max(0, Math.min(targetLeft, maxScrollLeft)),
+    behavior: "smooth",
+  });
+}
+
 function selectPhotoInPanel(index) {
   if (!state.currentPhotos[index]) return;
 
   if (!els.photoViewer.hidden) closePhotoViewer();
   state.selectedPhotoIndex = index;
   renderPhotos();
-
-  const card = els.photos.querySelector(`[data-photo-index="${index}"]`);
-  if (card) {
-    const container = els.photos;
-    const targetLeft =
-      card.offsetLeft - container.clientWidth / 2 + card.clientWidth / 2;
-    const maxScrollLeft = container.scrollWidth - container.clientWidth;
-    container.scrollTo({
-      left: Math.max(0, Math.min(targetLeft, maxScrollLeft)),
-      behavior: "smooth",
-    });
-  }
+  scrollPhotoIntoView(index);
 }
 
 function navigatePhoto(direction) {
   if (els.photoViewer.hidden || !state.currentPhotos.length) return;
   state.currentPhotoIndex =
     (state.currentPhotoIndex + direction + state.currentPhotos.length) % state.currentPhotos.length;
+  state.selectedPhotoIndex = state.currentPhotoIndex;
+  renderPhotos();
   renderPhotoViewer();
+  scrollPhotoIntoView(state.selectedPhotoIndex);
 }
 
 function closePhotoViewer() {
