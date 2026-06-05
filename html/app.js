@@ -9,7 +9,7 @@ const state = {
   travel: null,
   selectedDate: null,
   map: null,
-  gpxLayer: null,
+  gpxLayers: [],
   photoLayer: null,
   photoMarkers: [],
   currentPhotos: [],
@@ -124,8 +124,8 @@ function markdownToHtml(markdown) {
     .join("");
 }
 
-function getTrack() {
-  return state.travel.tracks?.find((item) => item.date === state.selectedDate);
+function getTracks() {
+  return (state.travel.tracks || []).filter((item) => item.date === state.selectedDate);
 }
 
 function getDayPhotos() {
@@ -163,7 +163,52 @@ function renderTrackStats(gpxLayer) {
     ["Elevation", `+${formatMeters(gpxLayer.get_elevation_gain())} / -${formatMeters(gpxLayer.get_elevation_loss())}`],
   ];
 
-  els.trackName.textContent = gpxLayer.get_name() || "";
+  if (state.gpxLayers.length <= 1) {
+    els.trackName.textContent = gpxLayer.get_name() || "";
+  }
+
+  els.trackStats.innerHTML = cards
+    .map(([label, value]) => `<div class="stat-card"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`)
+    .join("");
+}
+
+function renderCombinedTrackStats(layers) {
+  if (!layers.length) return;
+
+  if (layers.length === 1) {
+    renderTrackStats(layers[0]);
+    return;
+  }
+
+  const startTimes = layers
+    .map((layer) => layer.get_start_time())
+    .filter(Boolean)
+    .sort((a, b) => a - b);
+  const endTimes = layers
+    .map((layer) => layer.get_end_time())
+    .filter(Boolean)
+    .sort((a, b) => a - b);
+  const totalDistance = layers.reduce(
+    (sum, layer) => sum + (Number.isFinite(layer.get_distance()) ? layer.get_distance() : 0),
+    0
+  );
+  const totalGain = layers.reduce(
+    (sum, layer) => sum + (Number.isFinite(layer.get_elevation_gain()) ? layer.get_elevation_gain() : 0),
+    0
+  );
+  const totalLoss = layers.reduce(
+    (sum, layer) => sum + (Number.isFinite(layer.get_elevation_loss()) ? layer.get_elevation_loss() : 0),
+    0
+  );
+
+  els.trackName.textContent = `${layers.length} tracks`;
+
+  const cards = [
+    ["Start", startTimes[0] ? formatTime(startTimes[0]) : "n/a"],
+    ["End", endTimes[endTimes.length - 1] ? formatTime(endTimes[endTimes.length - 1]) : "n/a"],
+    ["Distance", totalDistance ? `${(totalDistance / 1000).toFixed(1)} km` : "n/a"],
+    ["Elevation", `+${formatMeters(totalGain)} / -${formatMeters(totalLoss)}`],
+  ];
 
   els.trackStats.innerHTML = cards
     .map(([label, value]) => `<div class="stat-card"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`)
@@ -265,63 +310,82 @@ function renderTravelOptions() {
     .join("");
 }
 
+function getDayLabel(travel, date, index) {
+  return `Day ${index + 1}`;
+}
+
 function renderDayNav() {
   const days = getTravelDays(state.travel);
   els.dayNav.innerHTML = days
     .map((date, index) => {
-      const label = `Day ${index + 1}`;
+      const label = getDayLabel(state.travel, date, index);
       const active = date === state.selectedDate ? " active" : "";
       return `<button class="day-button${active}" type="button" data-date="${date}">
-        ${label}<span>${formatDate(date)}</span>
+        ${escapeHtml(label)}<span>${formatDate(date)}</span>
       </button>`;
     })
     .join("");
 }
 
 function renderTrack() {
-  const track = getTrack();
+  const tracks = getTracks();
   document.querySelector(".map-error")?.remove();
-  els.trackName.textContent = "";
 
-  if (state.gpxLayer) {
-    state.map.removeLayer(state.gpxLayer);
-    state.gpxLayer = null;
-  }
+  state.gpxLayers.forEach((layer) => state.map.removeLayer(layer));
+  state.gpxLayers = [];
 
-  if (!track) {
+  if (!tracks.length) {
     state.map.setView([39.9, 4.25], 11);
+    els.trackName.textContent = "";
     els.trackStats.innerHTML = '<div class="empty-state">No track for this day.</div>';
     return;
   }
 
   els.trackStats.innerHTML = '<div class="empty-state">Loading track statistics...</div>';
 
-  state.gpxLayer = new L.GPX(repoPath(track.path), {
-    async: true,
-    marker_options: {
-      startIconUrl: "https://unpkg.com/leaflet-gpx@1.7.0/pin-icon-start.png",
-      endIconUrl: "https://unpkg.com/leaflet-gpx@1.7.0/pin-icon-end.png",
-      shadowUrl: "https://unpkg.com/leaflet-gpx@1.7.0/pin-shadow.png",
-    },
-    polyline_options: {
-      color: "#167a72",
-      opacity: 0.95,
-      weight: 5,
-      lineCap: "round",
-    },
-  })
-    .on("loaded", (event) => {
-      state.map.fitBounds(event.target.getBounds(), { padding: [52, 52] });
-      renderTrackStats(event.target);
+  let bounds = null;
+  const loadedLayers = [];
+  let hasError = false;
+
+  tracks.forEach((track) => {
+    const gpxLayer = new L.GPX(repoPath(track.path), {
+      async: true,
+      marker_options: {
+        startIconUrl: "https://unpkg.com/leaflet-gpx@1.7.0/pin-icon-start.png",
+        endIconUrl: "https://unpkg.com/leaflet-gpx@1.7.0/pin-icon-end.png",
+        shadowUrl: "https://unpkg.com/leaflet-gpx@1.7.0/pin-shadow.png",
+      },
+      polyline_options: {
+        color: "#167a72",
+        opacity: 0.95,
+        weight: 5,
+        lineCap: "round",
+      },
     })
-    .on("error", () => {
-      els.trackStats.innerHTML = '<div class="error-state">Could not load track statistics.</div>';
-      document.querySelector(".map-panel").insertAdjacentHTML(
-        "beforeend",
-        '<div class="error-state map-error">Could not load the GPX track for this day.</div>'
-      );
-    })
-    .addTo(state.map);
+      .on("loaded", (event) => {
+        if (hasError) return;
+
+        loadedLayers.push(event.target);
+        bounds = bounds ? bounds.extend(event.target.getBounds()) : event.target.getBounds();
+        state.map.fitBounds(bounds, { padding: [52, 52] });
+
+        if (loadedLayers.length === tracks.length) {
+          renderCombinedTrackStats(loadedLayers);
+        }
+      })
+      .on("error", () => {
+        hasError = true;
+        els.trackName.textContent = "";
+        els.trackStats.innerHTML = '<div class="error-state">Could not load track statistics.</div>';
+        document.querySelector(".map-panel").insertAdjacentHTML(
+          "beforeend",
+          '<div class="error-state map-error">Could not load the GPX track for this day.</div>'
+        );
+      })
+      .addTo(state.map);
+
+    state.gpxLayers.push(gpxLayer);
+  });
 }
 
 function renderPhotoMarkers() {
