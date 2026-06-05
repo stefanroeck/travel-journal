@@ -249,6 +249,20 @@ function photoTime(photo) {
     : "No time";
 }
 
+function photoDateTime(photo) {
+  if (!photo.timestamp) return "No time";
+
+  const date = new Date(photo.timestamp);
+  const dateLabel = new Intl.DateTimeFormat(undefined, {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(date);
+
+  return `${dateLabel} · ${photoTime(photo)}`;
+}
+
 function renderPhotoViewer() {
   const photo = state.currentPhotos[state.currentPhotoIndex];
   if (!photo) return;
@@ -256,7 +270,7 @@ function renderPhotoViewer() {
   const label = photoCaption(photo);
   els.photoViewerImage.src = repoPath(photo.path);
   els.photoViewerImage.alt = label;
-  els.photoViewerCaption.textContent = label ? `${label} · ${photoTime(photo)}` : photoTime(photo);
+  els.photoViewerCaption.textContent = label ? `${label} · ${photoDateTime(photo)}` : photoDateTime(photo);
   els.photoViewer.hidden = false;
   document.body.classList.add("viewer-open");
 }
