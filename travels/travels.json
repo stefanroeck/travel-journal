@@ -8,7 +8,7 @@
       "photos": [
         {
           "path": "photos/IMG_5004.png",
-          "caption": "",
+          "caption": "Blick auf den Nordwesten der Insel",
           "latitude": 40.1317056,
           "longitude": 3.9639278,
           "timestamp": "2026-05-21T07:28:29Z",
@@ -17,13 +17,13 @@
         },
         {
           "path": "photos/IMG_5008.png",
-          "caption": "",
+          "caption": "Rucksack gut verpackt",
           "timestamp": "2026-05-21T08:03:26Z",
           "thumbnail": "photos/thumbnails/IMG_5008.jpg"
         },
         {
           "path": "photos/IMG_5009.png",
-          "caption": "",
+          "caption": "Decathlon Campinggas",
           "latitude": 39.8848278,
           "longitude": 4.2350139,
           "timestamp": "2026-05-21T09:11:49Z",
@@ -43,7 +43,7 @@
         },
         {
           "path": "photos/IMG_5016.png",
-          "caption": "",
+          "caption": "Das hätte ein Blick auf die Altstadt sein können",
           "latitude": 39.8945056,
           "longitude": 4.2646111,
           "timestamp": "2026-05-21T10:30:47Z",
@@ -73,7 +73,7 @@
         },
         {
           "path": "photos/IMG_5025.png",
-          "caption": "",
+          "caption": "Typische Gatter",
           "latitude": 39.9146278,
           "longitude": 4.2843889,
           "timestamp": "2026-05-21T11:58:28Z",
@@ -93,7 +93,7 @@
         },
         {
           "path": "photos/IMG_5030.png",
-          "caption": "",
+          "caption": "Siesta Schattenplätzchen",
           "latitude": 39.9331444,
           "longitude": 4.2743556,
           "timestamp": "2026-05-21T12:44:42Z",
@@ -162,7 +162,7 @@
         },
         {
           "path": "photos/IMG_5069.png",
-          "caption": "",
+          "caption": "Menorcinischer Käse",
           "latitude": 39.9977194,
           "longitude": 4.2306639,
           "timestamp": "2026-05-21T19:18:27Z",
@@ -182,7 +182,7 @@
         },
         {
           "path": "photos/IMG_5074.png",
-          "caption": "",
+          "caption": "Früstück",
           "latitude": 39.9965944,
           "longitude": 4.2036222,
           "timestamp": "2026-05-22T08:28:42Z",
@@ -222,7 +222,7 @@
         },
         {
           "path": "photos/IMG_5085.png",
-          "caption": "",
+          "caption": "2qm Schatten unterm Felsen",
           "timestamp": "2026-05-22T15:35:22Z",
           "thumbnail": "photos/thumbnails/IMG_5085.jpg"
         },
@@ -237,7 +237,7 @@
         },
         {
           "path": "photos/IMG_5091.png",
-          "caption": "",
+          "caption": "Einsamer Liegestuhl",
           "latitude": 40.0453833,
           "longitude": 4.1024306,
           "timestamp": "2026-05-22T17:32:50Z",
@@ -336,13 +336,13 @@
         },
         {
           "path": "photos/IMG_5128.png",
-          "caption": "",
+          "caption": "Cala Morell Restaurant Terasse",
           "timestamp": "2026-05-23T18:08:58Z",
           "thumbnail": "photos/thumbnails/IMG_5128.jpg"
         },
         {
           "path": "photos/IMG_5132.png",
-          "caption": "",
+          "caption": "Steilküste bei Cala Morell",
           "latitude": 40.0520333,
           "longitude": 3.8755139,
           "timestamp": "2026-05-23T19:16:39Z",
@@ -362,7 +362,7 @@
         },
         {
           "path": "photos/IMG_5139.png",
-          "caption": "",
+          "caption": "Blick auf Mallorca",
           "latitude": 40.0524556,
           "longitude": 3.8504611,
           "timestamp": "2026-05-23T20:40:21Z",
@@ -382,7 +382,7 @@
         },
         {
           "path": "photos/IMG_5149.png",
-          "caption": "",
+          "caption": "Blüte der Kapernpflanze",
           "latitude": 40.0375944,
           "longitude": 3.8170444,
           "timestamp": "2026-05-24T07:58:22Z",
@@ -447,7 +447,7 @@
         },
         {
           "path": "photos/IMG_5172.png",
-          "caption": "",
+          "caption": "Ciutadella de Menorca",
           "latitude": 39.9973194,
           "longitude": 3.8223639,
           "timestamp": "2026-05-24T10:59:14Z",
@@ -456,7 +456,7 @@
         },
         {
           "path": "photos/IMG_5173.png",
-          "caption": "",
+          "caption": "Ciutadella de Menorca - Altstadt",
           "latitude": 40.0017,
           "longitude": 3.8360833,
           "timestamp": "2026-05-24T11:16:47Z",
@@ -492,7 +492,7 @@
         },
         {
           "path": "photos/IMG_5181.png",
-          "caption": "",
+          "caption": "Getrennte Schlafzimmer?",
           "latitude": 39.9232889,
           "longitude": 3.8561472,
           "timestamp": "2026-05-24T19:23:14Z",
@@ -501,7 +501,7 @@
         },
         {
           "path": "photos/IMG_5183.png",
-          "caption": "",
+          "caption": "Ein Turm für die Nacht",
           "latitude": 39.9223417,
           "longitude": 3.87015,
           "timestamp": "2026-05-24T20:01:28Z",
@@ -546,7 +546,7 @@
         },
         {
           "path": "photos/IMG_5194.png",
-          "caption": "",
+          "caption": "Cala Galdana Spielplatz",
           "latitude": 39.9397889,
           "longitude": 3.9582639,
           "timestamp": "2026-05-25T10:43:02Z",
@@ -555,7 +555,7 @@
         },
         {
           "path": "photos/IMG_5196.png",
-          "caption": "",
+          "caption": "Trubelige Traumbucht",
           "latitude": 39.9340056,
           "longitude": 3.9705667,
           "timestamp": "2026-05-25T11:34:21Z",
@@ -564,7 +564,7 @@
         },
         {
           "path": "photos/IMG_5197.png",
-          "caption": "",
+          "caption": "Ruhiges Hinterland",
           "latitude": 39.9408417,
           "longitude": 3.99985,
           "timestamp": "2026-05-25T12:24:33Z",
@@ -582,7 +582,7 @@
         },
         {
           "path": "photos/IMG_5200.png",
-          "caption": "",
+          "caption": "Menorquina Pferde",
           "latitude": 39.9081778,
           "longitude": 4.0520278,
           "timestamp": "2026-05-25T18:20:16Z",
@@ -609,7 +609,7 @@
         },
         {
           "path": "photos/IMG_5208.png",
-          "caption": "",
+          "caption": "Mobile Wäscheleine",
           "latitude": 39.9128278,
           "longitude": 4.065775,
           "timestamp": "2026-05-25T19:15:15Z",
@@ -690,7 +690,7 @@
         },
         {
           "path": "photos/IMG_5246.png",
-          "caption": "",
+          "caption": "La Menorquina - bestes Eis der Insel",
           "latitude": 39.8145611,
           "longitude": 4.2812222,
           "timestamp": "2026-05-26T18:08:52Z",
@@ -726,7 +726,7 @@
         },
         {
           "path": "photos/IMG_5259.png",
-          "caption": "",
+          "caption": "es Kastel - Hafen",
           "latitude": 39.8776556,
           "longitude": 4.2941833,
           "timestamp": "2026-05-27T11:04:12Z",
@@ -762,7 +762,7 @@
         },
         {
           "path": "photos/IMG_5267.png",
-          "caption": "",
+          "caption": "Nur noch wenige Meter zum Hotel",
           "latitude": 39.8849444,
           "longitude": 4.26945,
           "timestamp": "2026-05-27T12:20:33Z",
@@ -771,7 +771,7 @@
         },
         {
           "path": "photos/IMG_5280.png",
-          "caption": "",
+          "caption": "Maó",
           "latitude": 39.8893556,
           "longitude": 4.2628167,
           "timestamp": "2026-05-27T15:09:24Z",
