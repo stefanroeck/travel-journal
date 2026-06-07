@@ -17,6 +17,7 @@ from typing import Iterable
 from xml.etree import ElementTree as ET
 
 from garmin_fit_sdk import Decoder, Stream
+import json
 
 EARTH_RADIUS_M = 6_371_000.0
 
@@ -220,6 +221,58 @@ def read_session_metadata(messages: dict[str, list[dict[str, object]]]) -> dict[
     return {label: value for label, value in metadata.items() if value is not None}
 
 
+def extract_track_metadata(messages: dict[str, list[dict[str, object]]], track_points: list[TrackPoint]) -> dict[str, object]:
+    session = messages.get("session_mesgs", [{}])[0]
+    activity = messages.get("activity_mesgs", [{}])[0]
+
+    def maybe_float(value: float | int | None) -> float | None:
+        return float(value) if value is not None else None
+
+    def maybe_int(value: float | int | None) -> int | None:
+        return int(round(value)) if value is not None else None
+
+    total_distance = maybe_float(session.get("total_distance"))
+    if total_distance is None:
+        last_distance = next((pt.distance for pt in reversed(track_points) if pt.distance is not None), None)
+        total_distance = maybe_float(last_distance)
+
+    elapsed_seconds = maybe_float(session.get("total_elapsed_time"))
+    timer_seconds = maybe_float(session.get("total_timer_time"))
+    duration_seconds = timer_seconds if timer_seconds is not None else elapsed_seconds
+    if duration_seconds is None:
+        duration_seconds = (track_points[-1].timestamp - track_points[0].timestamp).total_seconds()
+
+    total_ascent = maybe_float(session.get("total_ascent"))
+    total_descent = maybe_float(session.get("total_descent"))
+    calories = maybe_int(session.get("total_calories"))
+    max_speed = maybe_float(session.get("max_speed"))
+
+    metadata: dict[str, object] = {
+        "date": track_points[0].timestamp.date().isoformat(),
+        "start_time": format_time(track_points[0].timestamp),
+        "end_time": format_time(track_points[-1].timestamp),
+    }
+
+    if total_distance is not None:
+        metadata["distance_m"] = total_distance
+        metadata["distance"] = format_distance(total_distance)
+    if duration_seconds is not None:
+        metadata["duration_s"] = maybe_int(duration_seconds)
+        metadata["duration"] = format_duration(duration_seconds)
+    if elapsed_seconds is not None:
+        metadata["elapsed_s"] = maybe_int(elapsed_seconds)
+    if total_ascent is not None:
+        metadata["total_ascent_m"] = total_ascent
+    if total_descent is not None:
+        metadata["total_descent_m"] = total_descent
+    if calories is not None:
+        metadata["calories"] = calories
+    if max_speed is not None:
+        metadata["max_speed_m_s"] = max_speed
+
+    return metadata
+
+
 def build_gpx(track_points: list[TrackPoint], name: str | None, desc: str | None) -> ET.Element:
     gpx_attrib = {
         "version": "1.1",
@@ -259,12 +312,75 @@ def write_gpx(root: ET.Element, output_path: Path) -> None:
     tree.write(output_path, encoding="utf-8", xml_declaration=True)
 
 
+def collect_fit_files(input_path: Path) -> list[Path]:
+    if input_path.is_dir():
+        return sorted(p for p in input_path.iterdir() if p.suffix.lower() == ".fit")
+    return [input_path]
+
+
+def resolve_output_path(fit_path: Path, output_path: Path | None, multiple: bool) -> Path:
+    if output_path is None:
+        return fit_path.with_suffix(".gpx")
+
+    if output_path.exists() and output_path.is_dir():
+        return output_path / fit_path.with_suffix(".gpx").name
+
+    if multiple:
+        if output_path.suffix.lower() == ".gpx":
+            raise ValueError("Cannot write multiple GPX files to a single output file")
+        output_path.mkdir(parents=True, exist_ok=True)
+        return output_path / fit_path.with_suffix(".gpx").name
+
+    if output_path.suffix.lower() != ".gpx":
+        output_path.mkdir(parents=True, exist_ok=True)
+        return output_path / fit_path.with_suffix(".gpx").name
+
+    return output_path
+
+
+def update_travel_tracks(json_path: Path, entries: list[dict[str, object]], travel_slug: str | None = None) -> None:
+    data = json.loads(json_path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict) or "travels" not in data:
+        raise RuntimeError(f"Invalid travels JSON file: {json_path}")
+
+    travels = data["travels"]
+    if not isinstance(travels, list) or not travels:
+        raise RuntimeError(f"Invalid travels JSON file: {json_path}")
+
+    if travel_slug is None:
+        travel = travels[0]
+    else:
+        travel = next((item for item in travels if item.get("slug") == travel_slug), None)
+        if travel is None:
+            raise RuntimeError(f"Travel with slug '{travel_slug}' not found in {json_path}")
+
+    travel["tracks"] = entries
+    json_path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
 def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Convert Garmin FIT files to GPX with optional waypoint simplification."
     )
-    parser.add_argument("fit_file", type=Path, help="Input .fit file to convert")
-    parser.add_argument("-o", "--output", type=Path, help="Output GPX file path")
+    parser.add_argument(
+        "fit_path",
+        nargs="?",
+        type=Path,
+        default=Path("tracks"),
+        help="Input .fit file or directory containing FIT files (default: tracks)",
+    )
+    parser.add_argument("-o", "--output", type=Path, help="Output GPX file path or directory")
+    parser.add_argument(
+        "--output-json",
+        type=Path,
+        default=Path("travels/travels.json"),
+        help="Travel JSON file to update with track entries",
+    )
+    parser.add_argument(
+        "--travel-slug",
+        type=str,
+        help="Slug of the travel entry to update in the JSON file",
+    )
     parser.add_argument(
         "--simplify",
         action="store_true",
@@ -287,51 +403,81 @@ def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
 
 def main(argv: Iterable[str] | None = None) -> int:
     args = parse_args(argv)
-    fit_path = args.fit_file
+    fit_path = args.fit_path
 
     if not fit_path.exists():
-        print(f"Error: FIT file not found: {fit_path}")
+        print(f"Error: input path not found: {fit_path}")
         return 2
-    if fit_path.suffix.lower() != ".fit":
-        print(f"Warning: input file does not have .fit extension: {fit_path}")
 
-    output_path = args.output or fit_path.with_suffix(".gpx")
-    if output_path.exists() and not args.overwrite:
-        print(f"Error: output file already exists: {output_path}")
-        print("Use --overwrite to replace it.")
+    fit_files = collect_fit_files(fit_path)
+    if not fit_files:
+        print(f"Error: no .fit files found in {fit_path}")
         return 3
 
-    if args.verbose:
-        print(f"Decoding FIT file: {fit_path}")
-
-    messages = load_fit_messages(fit_path)
-    track_points = parse_track_points(messages)
-
-    if not track_points:
-        print("Error: no valid GPS track points found in FIT file.")
-        return 4
-
-    if args.simplify:
-        if args.verbose:
-            print(f"Simplifying {len(track_points)} points with tolerance {args.tolerance} m")
-        track_points = simplify_points(track_points, args.tolerance)
-        if args.verbose:
-            print(f"Simplified to {len(track_points)} points")
-
-    name, desc = gpx_metadata(messages, fit_path)
-    root = build_gpx(track_points, name, desc)
-    write_gpx(root, output_path)
+    output_tracks: list[dict[str, object]] = []
+    multiple_outputs = len(fit_files) > 1
 
     if args.verbose:
-        print(f"Wrote GPX file: {output_path}")
+        print(f"Found {len(fit_files)} FIT file(s) in {fit_path}")
+
+    for file_index, current_fit in enumerate(fit_files, start=1):
+        if args.verbose:
+            print(f"Processing ({file_index}/{len(fit_files)}): {current_fit}")
+
+        if current_fit.suffix.lower() != ".fit":
+            if args.verbose:
+                print(f"Skipping non-FIT file: {current_fit}")
+            continue
+
+        output_path = resolve_output_path(current_fit, args.output, multiple_outputs)
+        if output_path.exists() and not args.overwrite:
+            print(f"Error: output file already exists: {output_path}")
+            print("Use --overwrite to replace it.")
+            return 4
+
+        messages = load_fit_messages(current_fit)
+        track_points = parse_track_points(messages)
+        if not track_points:
+            print(f"Warning: no valid GPS track points found in {current_fit}, skipping")
+            continue
+
+        if args.simplify:
+            if args.verbose:
+                print(f"Simplifying {len(track_points)} points with tolerance {args.tolerance} m")
+            track_points = simplify_points(track_points, args.tolerance)
+            if args.verbose:
+                print(f"Simplified to {len(track_points)} points")
+
+        name, desc = gpx_metadata(messages, current_fit)
+        root = build_gpx(track_points, name, desc)
+        write_gpx(root, output_path)
+
+        relative_path = output_path
+        try:
+            relative_path = output_path.relative_to(Path.cwd())
+        except ValueError:
+            pass
+
+        entry_metadata = extract_track_metadata(messages, track_points)
+        entry_metadata["path"] = relative_path.as_posix()
+        output_tracks.append(entry_metadata)
+
+        if args.verbose:
+            print(f"Wrote GPX file: {output_path}")
+        else:
+            print(f"Converted {current_fit.name} → {output_path.name}")
+
+    if not output_tracks:
+        print("Error: no tracks were converted")
+        return 5
+
+    output_tracks.sort(key=lambda item: (item["date"], item["path"]))
+    update_travel_tracks(args.output_json, output_tracks, travel_slug=args.travel_slug)
+
+    if args.verbose:
+        print(f"Updated travel tracks in {args.output_json}")
     else:
-        print(f"Converted {fit_path.name} → {output_path.name}")
-
-    session_metadata = read_session_metadata(messages)
-    if session_metadata:
-        print("Session metadata:")
-        for label, value in session_metadata.items():
-            print(f"  {label}: {value}")
+        print(f"Updated {args.output_json} with {len(output_tracks)} track entries")
 
     return 0
 

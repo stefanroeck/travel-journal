@@ -200,19 +200,39 @@ function renderTrackSummaryHtml(cards) {
     .join("");
 }
 
-function renderTrackStats(gpxLayer) {
+function formatTrackTime(value) {
+  return value ? formatTime(new Date(value)) : "n/a";
+}
+
+function formatTrackDistance(track) {
+  if (Number.isFinite(track.distance_m)) {
+    return `${(track.distance_m / 1000).toFixed(1)} km`;
+  }
+  return track.distance || "n/a";
+}
+
+function formatTrackElevation(track) {
+  const ascent = Number.isFinite(track.total_ascent_m) ? track.total_ascent_m : null;
+  const descent = Number.isFinite(track.total_descent_m) ? track.total_descent_m : null;
+  return `+${ascent !== null ? formatMeters(ascent) : "n/a"} / -${descent !== null ? formatMeters(descent) : "n/a"}`;
+}
+
+function getTrackNameFromPath(track) {
+  const pathValue = String(track.path || "");
+  const filename = pathValue.split("/").pop() || "";
+  return filename.replace(/\.gpx$/i, "");
+}
+
+function renderTrackStats(track) {
   const cards = [
-    ["Start", gpxLayer.get_start_time() ? formatTime(gpxLayer.get_start_time()) : "n/a"],
-    ["End", gpxLayer.get_end_time() ? formatTime(gpxLayer.get_end_time()) : "n/a"],
-    ["Distance", Number.isFinite(gpxLayer.get_distance()) ? `${(gpxLayer.get_distance() / 1000).toFixed(1)} km` : "n/a"],
-    ["Elevation", `+${formatMeters(gpxLayer.get_elevation_gain())} / -${formatMeters(gpxLayer.get_elevation_loss())}`],
+    ["Start", formatTrackTime(track.start_time)],
+    ["End", formatTrackTime(track.end_time)],
+    ["Distance", formatTrackDistance(track)],
+    ["Elevation", formatTrackElevation(track)],
   ];
 
-  // Attach weather info from travels data if available for the selected date
-  const trackData = (state.travel?.tracks || []).find((t) => t.date === state.selectedDate && t.weather);
-  if (trackData?.weather) {
-    const w = trackData.weather;
-    // Show up/down arrows for high/low temps and put the weather icon inline.
+  if (track.weather) {
+    const w = track.weather;
     const weatherIcon = chooseWeatherIconClass(w.weathercode);
     const weatherLabel = `
       <i class="fas fa-arrow-up" aria-hidden="true"></i> ${escapeHtml(String(w.max_temp_c))}°C
@@ -221,62 +241,57 @@ function renderTrackStats(gpxLayer) {
     cards.push(["Weather", weatherLabel]);
   }
 
-  if (state.gpxLayers.length <= 1) {
-    els.trackName.textContent = gpxLayer.get_name() || "";
-  }
-
+  els.trackName.textContent = getTrackNameFromPath(track);
   els.trackStats.innerHTML = renderTrackSummaryHtml(cards);
 }
 
-function renderCombinedTrackStats(layers) {
-  if (!layers.length) return;
+function renderCombinedTrackStats(tracks) {
+  if (!tracks.length) return;
 
-  if (layers.length === 1) {
-    renderTrackStats(layers[0]);
+  if (tracks.length === 1) {
+    renderTrackStats(tracks[0]);
     return;
   }
 
-  const startTimes = layers
-    .map((layer) => layer.get_start_time())
+  const sortedStartTimes = tracks
+    .map((track) => track.start_time)
     .filter(Boolean)
-    .sort((a, b) => a - b);
-  const endTimes = layers
-    .map((layer) => layer.get_end_time())
+    .sort((a, b) => new Date(a) - new Date(b));
+  const sortedEndTimes = tracks
+    .map((track) => track.end_time)
     .filter(Boolean)
-    .sort((a, b) => a - b);
-  const totalDistance = layers.reduce(
-    (sum, layer) => sum + (Number.isFinite(layer.get_distance()) ? layer.get_distance() : 0),
+    .sort((a, b) => new Date(a) - new Date(b));
+  const totalDistance = tracks.reduce(
+    (sum, track) => sum + (Number.isFinite(track.distance_m) ? track.distance_m : 0),
     0
   );
-  const totalGain = layers.reduce(
-    (sum, layer) => sum + (Number.isFinite(layer.get_elevation_gain()) ? layer.get_elevation_gain() : 0),
+  const totalGain = tracks.reduce(
+    (sum, track) => sum + (Number.isFinite(track.total_ascent_m) ? track.total_ascent_m : 0),
     0
   );
-  const totalLoss = layers.reduce(
-    (sum, layer) => sum + (Number.isFinite(layer.get_elevation_loss()) ? layer.get_elevation_loss() : 0),
+  const totalLoss = tracks.reduce(
+    (sum, track) => sum + (Number.isFinite(track.total_descent_m) ? track.total_descent_m : 0),
     0
   );
 
-  const trackNames = layers
-    .map((layer) => layer.get_name())
+  const trackNames = tracks
+    .map(getTrackNameFromPath)
     .filter(Boolean);
 
   els.trackName.textContent = trackNames.length
     ? trackNames.join(", ")
-    : `${layers.length} tracks`;
+    : `${tracks.length} tracks`;
 
   const cards = [
-    ["Start", startTimes[0] ? formatTime(startTimes[0]) : "n/a"],
-    ["End", endTimes[endTimes.length - 1] ? formatTime(endTimes[endTimes.length - 1]) : "n/a"],
+    ["Start", sortedStartTimes[0] ? formatTrackTime(sortedStartTimes[0]) : "n/a"],
+    ["End", sortedEndTimes[sortedEndTimes.length - 1] ? formatTrackTime(sortedEndTimes[sortedEndTimes.length - 1]) : "n/a"],
     ["Distance", totalDistance ? `${(totalDistance / 1000).toFixed(1)} km` : "n/a"],
     ["Elevation", `+${formatMeters(totalGain)} / -${formatMeters(totalLoss)}`],
   ];
 
-  // If any of the travel tracks for the selected date contains weather, show it
-  const trackData = (state.travel?.tracks || []).find((t) => t.date === state.selectedDate && t.weather);
-  if (trackData?.weather) {
-    const w = trackData.weather;
-    // Show up/down arrows for high/low temps and put the weather icon inline.
+  const weatherTrack = tracks.find((track) => track.weather);
+  if (weatherTrack?.weather) {
+    const w = weatherTrack.weather;
     const weatherIcon = chooseWeatherIconClass(w.weathercode);
     const weatherLabel = `
       <i class="fas fa-arrow-up" aria-hidden="true"></i> ${escapeHtml(String(w.max_temp_c))}°C
@@ -459,6 +474,7 @@ function renderTrack() {
 
   const renderId = Symbol("track-render");
   state.trackRenderId = renderId;
+  renderCombinedTrackStats(tracks);
   let bounds = null;
   const loadedLayers = [];
   let hasError = false;
@@ -487,7 +503,6 @@ function renderTrack() {
 
         if (loadedLayers.length === tracks.length) {
           state.map.fitBounds(bounds, { padding: [52, 52] });
-          renderCombinedTrackStats(loadedLayers);
         }
       })
       .on("error", () => {
