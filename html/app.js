@@ -318,11 +318,11 @@ function photoCaption(photo) {
 function photoTime(photo) {
   return photo.timestamp
     ? new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit" }).format(new Date(photo.timestamp))
-    : "No time";
+    : "Keine Zeit";
 }
 
 function photoDateTime(photo) {
-  if (!photo.timestamp) return "No time";
+  if (!photo.timestamp) return "Keine Zeit";
 
   const date = new Date(photo.timestamp);
   const dateLabel = new Intl.DateTimeFormat(undefined, {
@@ -427,7 +427,7 @@ function renderTravelOptions() {
 }
 
 function getDayLabel(travel, date, index) {
-  return `Day ${index + 1}`;
+  return `Tag ${index + 1}`;
 }
 
 function renderDayNav() {
@@ -453,7 +453,7 @@ function renderTrack() {
   if (!tracks.length) {
     state.map.setView([39.9, 4.25], 11);
     els.trackName.textContent = "";
-    els.trackStats.innerHTML = '<div class="empty-state">No track for this day.</div>';
+    els.trackStats.innerHTML = '<div class="empty-state">Kein Track für diesen Tag.</div>';
     return;
   }
 
@@ -493,10 +493,10 @@ function renderTrack() {
       .on("error", () => {
         hasError = true;
         els.trackName.textContent = "";
-        els.trackStats.innerHTML = '<div class="error-state">Could not load track statistics.</div>';
+        els.trackStats.innerHTML = '<div class="error-state">Track-Statistiken konnten nicht geladen werden.</div>';
         document.querySelector(".map-panel").insertAdjacentHTML(
           "beforeend",
-          '<div class="error-state map-error">Could not load the GPX track for this day.</div>'
+          '<div class="error-state map-error">Der GPX-Track für diesen Tag konnte nicht geladen werden.</div>'
         );
       })
       .addTo(state.map);
@@ -546,11 +546,11 @@ function renderPhotos() {
   if (state.hoveredPhotoIndex >= photos.length) {
     state.hoveredPhotoIndex = -1;
   }
-  els.photoCount.textContent = `${photos.length} ${photos.length === 1 ? "photo" : "photos"}`;
+  els.photoCount.textContent = `${photos.length} ${photos.length === 1 ? "Foto" : "Fotos"}`;
   renderPhotoMarkers();
 
   if (!photos.length) {
-    els.photos.innerHTML = '<div class="empty-state">No photos for this day.</div>';
+    els.photos.innerHTML = '<div class="empty-state">Keine Fotos für diesen Tag.</div>';
     return;
   }
 
@@ -575,7 +575,7 @@ async function renderNotes() {
   els.noteDate.textContent = formatDate(state.selectedDate, { year: "numeric" });
 
   if (!note) {
-    els.notes.innerHTML = '<div class="empty-state">No notes for this day.</div>';
+    els.notes.innerHTML = '<div class="empty-state">Keine Notizen für diesen Tag.</div>';
     return;
   }
 
@@ -585,7 +585,7 @@ async function renderNotes() {
     const markdown = await response.text();
     els.notes.innerHTML = markdownToHtml(markdown);
   } catch (error) {
-    els.notes.innerHTML = '<div class="error-state">Could not load notes for this day.</div>';
+    els.notes.innerHTML = '<div class="error-state">Notizen für diesen Tag konnten nicht geladen werden.</div>';
   }
 }
 
@@ -730,7 +730,7 @@ async function load() {
     await selectTravel(initialTravel.slug, { replaceUrl: true });
   } catch (error) {
     document.body.innerHTML = `<main class="load-failure">
-      <h1>Could not load itinerary</h1>
+      <h1>Reiseroute konnte nicht geladen werden</h1>
       <p>${escapeHtml(error.message)}</p>
     </main>`;
   }

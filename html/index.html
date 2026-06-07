@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Travel Journal</title>
+    <title>Reisetagebuch</title>
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -16,20 +16,20 @@
   <body>
     <header class="app-header">
       <div class="app-header__title-group">
-        <button id="travel-menu-button" class="menu-button" aria-label="Open travel menu" aria-expanded="false" aria-controls="travel-menu">
+        <button id="travel-menu-button" class="menu-button" aria-label="Reisemenü öffnen" aria-expanded="false" aria-controls="travel-menu">
           <span aria-hidden="true">☰</span>
         </button>
         <div>
-          <p class="eyebrow">Travel journal</p>
-          <h1 id="travel-title">My Itinerary</h1>
+          <p class="eyebrow">Reisetagebuch</p>
+          <h1 id="travel-title">Meine Reiseroute</h1>
         </div>
-        <nav id="travel-menu" class="travel-menu" aria-label="Select travel" hidden></nav>
+        <nav id="travel-menu" class="travel-menu" aria-label="Reise auswählen" hidden></nav>
       </div>
     </header>
 
     <div class="day-nav-group">
-      <nav id="day-nav" class="day-nav" aria-label="Travel days"></nav>
-      <section id="track-summary" class="track-summary" aria-label="Track summary">
+      <nav id="day-nav" class="day-nav" aria-label="Reisetage"></nav>
+      <section id="track-summary" class="track-summary" aria-label="Track-Zusammenfassung">
         <div class="track-summary__title">
           <strong id="track-name"></strong>
         </div>
@@ -39,23 +39,23 @@
 
     <main class="layout">
       <div class="left-column">
-        <section class="map-panel" aria-label="Track map">
+        <section class="map-panel" aria-label="Track-Karte">
           <div id="map"></div>
         </section>
 
         <section class="content-section notes-section">
           <div class="section-heading">
-            <h2>Notes</h2>
+            <h2>Notizen</h2>
             <span id="note-date"></span>
           </div>
           <article id="notes" class="notes"></article>
         </section>
       </div>
 
-      <aside class="right-column" aria-label="Day details">
+      <aside class="right-column" aria-label="Tagesdetails">
         <section class="content-section photos-section">
           <div class="section-heading">
-            <h2>Photos</h2>
+            <h2>Fotos</h2>
             <span id="photo-count"></span>
           </div>
           <div id="photos" class="photo-grid"></div>
@@ -64,12 +64,12 @@
     </main>
 
     <div id="photo-viewer" class="photo-viewer" hidden>
-      <button class="photo-viewer__backdrop" type="button" aria-label="Close photo"></button>
+      <button class="photo-viewer__backdrop" type="button" aria-label="Foto schließen"></button>
       <figure class="photo-viewer__content">
-        <button class="photo-viewer__close" type="button" aria-label="Close photo">&times;</button>
-        <button class="photo-viewer__nav photo-viewer__nav--prev" type="button" data-photo-nav="-1" aria-label="Previous photo">&lsaquo;</button>
+        <button class="photo-viewer__close" type="button" aria-label="Foto schließen">&times;</button>
+        <button class="photo-viewer__nav photo-viewer__nav--prev" type="button" data-photo-nav="-1" aria-label="Vorheriges Foto">&lsaquo;</button>
         <img id="photo-viewer-image" src="" alt="">
-        <button class="photo-viewer__nav photo-viewer__nav--next" type="button" data-photo-nav="1" aria-label="Next photo">&rsaquo;</button>
+        <button class="photo-viewer__nav photo-viewer__nav--next" type="button" data-photo-nav="1" aria-label="Nächstes Foto">&rsaquo;</button>
         <figcaption id="photo-viewer-caption"></figcaption>
       </figure>
     </div>
