@@ -559,8 +559,10 @@ function renderPhotos() {
       const caption = photoCaption(photo);
       const captionMarkup = caption ? `<strong>${escapeHtml(caption)}</strong>` : "";
       const selected = index === state.selectedPhotoIndex ? " selected" : "";
+      // Use thumbnail for preview, fallback to original if not available
+      const thumbSrc = repoPath(photo.thumbnail || photo.path);
       return `<figure class="photo-card${selected}" data-photo-index="${index}" tabindex="0">
-        <img src="${repoPath(photo.path)}" alt="${escapeHtml(caption)}" loading="lazy">
+        <img src="${thumbSrc}" alt="${escapeHtml(caption)}" loading="lazy">
         <figcaption class="photo-meta">
           ${captionMarkup}
           <span>${escapeHtml(photoTime(photo))}</span>

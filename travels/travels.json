@@ -12,12 +12,14 @@
           "latitude": 40.1317056,
           "longitude": 3.9639278,
           "timestamp": "2026-05-21T07:28:29Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5004.jpg"
         },
         {
           "path": "photos/IMG_5008.png",
           "caption": "",
-          "timestamp": "2026-05-21T08:03:26Z"
+          "timestamp": "2026-05-21T08:03:26Z",
+          "thumbnail": "photos/thumbnails/IMG_5008.jpg"
         },
         {
           "path": "photos/IMG_5009.png",
@@ -26,7 +28,8 @@
           "longitude": 4.2350139,
           "timestamp": "2026-05-21T09:11:49Z",
           "location_looked_up": true,
-          "location_name": "Maó"
+          "location_name": "Maó",
+          "thumbnail": "photos/thumbnails/IMG_5009.jpg"
         },
         {
           "path": "photos/IMG_5010.png",
@@ -35,7 +38,8 @@
           "longitude": 4.2602694,
           "timestamp": "2026-05-21T09:58:29Z",
           "location_looked_up": true,
-          "location_name": "Maó"
+          "location_name": "Maó",
+          "thumbnail": "photos/thumbnails/IMG_5010.jpg"
         },
         {
           "path": "photos/IMG_5016.png",
@@ -44,7 +48,8 @@
           "longitude": 4.2646111,
           "timestamp": "2026-05-21T10:30:47Z",
           "location_looked_up": true,
-          "location_name": "Maó"
+          "location_name": "Maó",
+          "thumbnail": "photos/thumbnails/IMG_5016.jpg"
         },
         {
           "path": "photos/IMG_5019.png",
@@ -53,7 +58,8 @@
           "longitude": 4.2771667,
           "timestamp": "2026-05-21T10:48:57Z",
           "location_looked_up": true,
-          "location_name": "Maó"
+          "location_name": "Maó",
+          "thumbnail": "photos/thumbnails/IMG_5019.jpg"
         },
         {
           "path": "photos/IMG_5021.png",
@@ -62,7 +68,8 @@
           "longitude": 4.2897333,
           "timestamp": "2026-05-21T11:11:22Z",
           "location_looked_up": true,
-          "location_name": "Maó"
+          "location_name": "Maó",
+          "thumbnail": "photos/thumbnails/IMG_5021.jpg"
         },
         {
           "path": "photos/IMG_5025.png",
@@ -71,7 +78,8 @@
           "longitude": 4.2843889,
           "timestamp": "2026-05-21T11:58:28Z",
           "location_looked_up": true,
-          "location_name": "Maó"
+          "location_name": "Maó",
+          "thumbnail": "photos/thumbnails/IMG_5025.jpg"
         },
         {
           "path": "photos/IMG_5027.png",
@@ -80,7 +88,8 @@
           "longitude": 4.2859889,
           "timestamp": "2026-05-21T12:01:10Z",
           "location_looked_up": true,
-          "location_name": "Maó"
+          "location_name": "Maó",
+          "thumbnail": "photos/thumbnails/IMG_5027.jpg"
         },
         {
           "path": "photos/IMG_5030.png",
@@ -89,7 +98,8 @@
           "longitude": 4.2743556,
           "timestamp": "2026-05-21T12:44:42Z",
           "location_looked_up": true,
-          "location_name": "Maó"
+          "location_name": "Maó",
+          "thumbnail": "photos/thumbnails/IMG_5030.jpg"
         },
         {
           "path": "photos/IMG_5046.png",
@@ -98,7 +108,8 @@
           "longitude": 4.2675806,
           "timestamp": "2026-05-21T14:07:01Z",
           "location_looked_up": true,
-          "location_name": "Maó"
+          "location_name": "Maó",
+          "thumbnail": "photos/thumbnails/IMG_5046.jpg"
         },
         {
           "path": "photos/IMG_5050.png",
@@ -107,7 +118,8 @@
           "longitude": 4.2678444,
           "timestamp": "2026-05-21T15:06:17Z",
           "location_looked_up": true,
-          "location_name": "Maó"
+          "location_name": "Maó",
+          "thumbnail": "photos/thumbnails/IMG_5050.jpg"
         },
         {
           "path": "photos/IMG_5057.png",
@@ -116,7 +128,8 @@
           "longitude": 4.2579639,
           "timestamp": "2026-05-21T16:20:57Z",
           "location_looked_up": true,
-          "location_name": "Maó"
+          "location_name": "Maó",
+          "thumbnail": "photos/thumbnails/IMG_5057.jpg"
         },
         {
           "path": "photos/IMG_5061.png",
@@ -125,7 +138,8 @@
           "longitude": 4.2559667,
           "timestamp": "2026-05-21T17:57:39Z",
           "location_looked_up": true,
-          "location_name": "Maó"
+          "location_name": "Maó",
+          "thumbnail": "photos/thumbnails/IMG_5061.jpg"
         },
         {
           "path": "photos/IMG_5063.png",
@@ -133,7 +147,8 @@
           "latitude": 39.9895583,
           "longitude": 4.2551056,
           "timestamp": "2026-05-21T18:02:39Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5063.jpg"
         },
         {
           "path": "photos/IMG_5065.png",
@@ -142,7 +157,8 @@
           "longitude": 4.2539556,
           "timestamp": "2026-05-21T18:05:34Z",
           "location_looked_up": true,
-          "location_name": "Maó"
+          "location_name": "Maó",
+          "thumbnail": "photos/thumbnails/IMG_5065.jpg"
         },
         {
           "path": "photos/IMG_5069.png",
@@ -151,7 +167,8 @@
           "longitude": 4.2306639,
           "timestamp": "2026-05-21T19:18:27Z",
           "location_looked_up": true,
-          "location_name": "Maó"
+          "location_name": "Maó",
+          "thumbnail": "photos/thumbnails/IMG_5069.jpg"
         },
         {
           "path": "photos/IMG_5072.png",
@@ -160,7 +177,8 @@
           "longitude": 4.2307222,
           "timestamp": "2026-05-21T20:43:12Z",
           "location_looked_up": true,
-          "location_name": "Maó"
+          "location_name": "Maó",
+          "thumbnail": "photos/thumbnails/IMG_5072.jpg"
         },
         {
           "path": "photos/IMG_5074.png",
@@ -169,7 +187,8 @@
           "longitude": 4.2036222,
           "timestamp": "2026-05-22T08:28:42Z",
           "location_looked_up": true,
-          "location_name": "es Mercadal"
+          "location_name": "es Mercadal",
+          "thumbnail": "photos/thumbnails/IMG_5074.jpg"
         },
         {
           "path": "photos/IMG_5078.png",
@@ -178,7 +197,8 @@
           "longitude": 4.1858861,
           "timestamp": "2026-05-22T09:55:02Z",
           "location_looked_up": true,
-          "location_name": "es Mercadal"
+          "location_name": "es Mercadal",
+          "thumbnail": "photos/thumbnails/IMG_5078.jpg"
         },
         {
           "path": "photos/IMG_5080.png",
@@ -187,7 +207,8 @@
           "longitude": 4.1824722,
           "timestamp": "2026-05-22T10:07:58Z",
           "location_looked_up": true,
-          "location_name": "es Mercadal"
+          "location_name": "es Mercadal",
+          "thumbnail": "photos/thumbnails/IMG_5080.jpg"
         },
         {
           "path": "photos/IMG_5082.png",
@@ -196,12 +217,14 @@
           "longitude": 4.1749,
           "timestamp": "2026-05-22T11:06:55Z",
           "location_looked_up": true,
-          "location_name": "es Mercadal"
+          "location_name": "es Mercadal",
+          "thumbnail": "photos/thumbnails/IMG_5082.jpg"
         },
         {
           "path": "photos/IMG_5085.png",
           "caption": "",
-          "timestamp": "2026-05-22T15:35:22Z"
+          "timestamp": "2026-05-22T15:35:22Z",
+          "thumbnail": "photos/thumbnails/IMG_5085.jpg"
         },
         {
           "path": "photos/IMG_5087.png",
@@ -209,7 +232,8 @@
           "latitude": 40.0453639,
           "longitude": 4.1024472,
           "timestamp": "2026-05-22T17:31:09Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5087.jpg"
         },
         {
           "path": "photos/IMG_5091.png",
@@ -217,7 +241,8 @@
           "latitude": 40.0453833,
           "longitude": 4.1024306,
           "timestamp": "2026-05-22T17:32:50Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5091.jpg"
         },
         {
           "path": "photos/IMG_5100.png",
@@ -226,7 +251,8 @@
           "longitude": 4.0773583,
           "timestamp": "2026-05-22T19:37:35Z",
           "location_looked_up": true,
-          "location_name": "es Mercadal"
+          "location_name": "es Mercadal",
+          "thumbnail": "photos/thumbnails/IMG_5100.jpg"
         },
         {
           "path": "photos/IMG_5102.png",
@@ -235,7 +261,8 @@
           "longitude": 4.05455,
           "timestamp": "2026-05-22T20:46:59Z",
           "location_looked_up": true,
-          "location_name": "es Mercadal"
+          "location_name": "es Mercadal",
+          "thumbnail": "photos/thumbnails/IMG_5102.jpg"
         },
         {
           "path": "photos/IMG_5106.png",
@@ -244,7 +271,8 @@
           "longitude": 4.006275,
           "timestamp": "2026-05-23T09:44:21Z",
           "location_looked_up": true,
-          "location_name": "Ferreries"
+          "location_name": "Ferreries",
+          "thumbnail": "photos/thumbnails/IMG_5106.jpg"
         },
         {
           "path": "photos/IMG_5107.png",
@@ -253,7 +281,8 @@
           "longitude": 4.0062139,
           "timestamp": "2026-05-23T09:48:26Z",
           "location_looked_up": true,
-          "location_name": "Ferreries"
+          "location_name": "Ferreries",
+          "thumbnail": "photos/thumbnails/IMG_5107.jpg"
         },
         {
           "path": "photos/IMG_5113.png",
@@ -262,7 +291,8 @@
           "longitude": 4.0050333,
           "timestamp": "2026-05-23T09:59:29Z",
           "location_looked_up": true,
-          "location_name": "Ferreries"
+          "location_name": "Ferreries",
+          "thumbnail": "photos/thumbnails/IMG_5113.jpg"
         },
         {
           "path": "photos/IMG_5115.png",
@@ -271,7 +301,8 @@
           "longitude": 3.9816417,
           "timestamp": "2026-05-23T10:45:57Z",
           "location_looked_up": true,
-          "location_name": "Ciutadella"
+          "location_name": "Ciutadella",
+          "thumbnail": "photos/thumbnails/IMG_5115.jpg"
         },
         {
           "path": "photos/IMG_5123.png",
@@ -280,7 +311,8 @@
           "longitude": 3.980775,
           "timestamp": "2026-05-23T11:30:10Z",
           "location_looked_up": true,
-          "location_name": "Ciutadella"
+          "location_name": "Ciutadella",
+          "thumbnail": "photos/thumbnails/IMG_5123.jpg"
         },
         {
           "path": "photos/IMG_5125.png",
@@ -289,7 +321,8 @@
           "longitude": 3.980075,
           "timestamp": "2026-05-23T11:31:59Z",
           "location_looked_up": true,
-          "location_name": "Ciutadella"
+          "location_name": "Ciutadella",
+          "thumbnail": "photos/thumbnails/IMG_5125.jpg"
         },
         {
           "path": "photos/IMG_5127.png",
@@ -298,12 +331,14 @@
           "longitude": 3.923875,
           "timestamp": "2026-05-23T15:53:05Z",
           "location_looked_up": true,
-          "location_name": "Ciutadella"
+          "location_name": "Ciutadella",
+          "thumbnail": "photos/thumbnails/IMG_5127.jpg"
         },
         {
           "path": "photos/IMG_5128.png",
           "caption": "",
-          "timestamp": "2026-05-23T18:08:58Z"
+          "timestamp": "2026-05-23T18:08:58Z",
+          "thumbnail": "photos/thumbnails/IMG_5128.jpg"
         },
         {
           "path": "photos/IMG_5132.png",
@@ -312,7 +347,8 @@
           "longitude": 3.8755139,
           "timestamp": "2026-05-23T19:16:39Z",
           "location_looked_up": true,
-          "location_name": "Ciutadella"
+          "location_name": "Ciutadella",
+          "thumbnail": "photos/thumbnails/IMG_5132.jpg"
         },
         {
           "path": "photos/IMG_5136.png",
@@ -321,7 +357,8 @@
           "longitude": 3.8713333,
           "timestamp": "2026-05-23T19:30:05Z",
           "location_looked_up": true,
-          "location_name": "Ciutadella"
+          "location_name": "Ciutadella",
+          "thumbnail": "photos/thumbnails/IMG_5136.jpg"
         },
         {
           "path": "photos/IMG_5139.png",
@@ -330,7 +367,8 @@
           "longitude": 3.8504611,
           "timestamp": "2026-05-23T20:40:21Z",
           "location_looked_up": true,
-          "location_name": "Ciutadella"
+          "location_name": "Ciutadella",
+          "thumbnail": "photos/thumbnails/IMG_5139.jpg"
         },
         {
           "path": "photos/IMG_5148.png",
@@ -339,7 +377,8 @@
           "longitude": 3.8387056,
           "timestamp": "2026-05-24T07:21:12Z",
           "location_looked_up": true,
-          "location_name": "Ciutadella"
+          "location_name": "Ciutadella",
+          "thumbnail": "photos/thumbnails/IMG_5148.jpg"
         },
         {
           "path": "photos/IMG_5149.png",
@@ -348,7 +387,8 @@
           "longitude": 3.8170444,
           "timestamp": "2026-05-24T07:58:22Z",
           "location_looked_up": true,
-          "location_name": "Ciutadella"
+          "location_name": "Ciutadella",
+          "thumbnail": "photos/thumbnails/IMG_5149.jpg"
         },
         {
           "path": "photos/IMG_5152.png",
@@ -357,7 +397,8 @@
           "longitude": 3.8136583,
           "timestamp": "2026-05-24T08:05:43Z",
           "location_looked_up": true,
-          "location_name": "Ciutadella"
+          "location_name": "Ciutadella",
+          "thumbnail": "photos/thumbnails/IMG_5152.jpg"
         },
         {
           "path": "photos/IMG_5154.png",
@@ -365,7 +406,8 @@
           "latitude": 40.0203639,
           "longitude": 3.7998278,
           "timestamp": "2026-05-24T08:42:13Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5154.jpg"
         },
         {
           "path": "photos/IMG_5155.png",
@@ -373,7 +415,8 @@
           "latitude": 40.0203667,
           "longitude": 3.7998056,
           "timestamp": "2026-05-24T08:42:36Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5155.jpg"
         },
         {
           "path": "photos/IMG_5158.png",
@@ -381,7 +424,8 @@
           "latitude": 40.0200611,
           "longitude": 3.79965,
           "timestamp": "2026-05-24T09:02:37Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5158.jpg"
         },
         {
           "path": "photos/IMG_5163.png",
@@ -389,7 +433,8 @@
           "latitude": 40.0200528,
           "longitude": 3.7996611,
           "timestamp": "2026-05-24T09:19:22Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5163.jpg"
         },
         {
           "path": "photos/IMG_5167.png",
@@ -397,7 +442,8 @@
           "latitude": 40.0113139,
           "longitude": 3.7958111,
           "timestamp": "2026-05-24T10:00:45Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5167.jpg"
         },
         {
           "path": "photos/IMG_5172.png",
@@ -405,7 +451,8 @@
           "latitude": 39.9973194,
           "longitude": 3.8223639,
           "timestamp": "2026-05-24T10:59:14Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5172.jpg"
         },
         {
           "path": "photos/IMG_5173.png",
@@ -413,7 +460,8 @@
           "latitude": 40.0017,
           "longitude": 3.8360833,
           "timestamp": "2026-05-24T11:16:47Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5173.jpg"
         },
         {
           "path": "photos/IMG_5177.png",
@@ -421,7 +469,8 @@
           "latitude": 39.9530028,
           "longitude": 3.8262944,
           "timestamp": "2026-05-24T17:17:21Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5177.jpg"
         },
         {
           "path": "photos/IMG_5179.png",
@@ -429,7 +478,8 @@
           "latitude": 39.9263417,
           "longitude": 3.8218861,
           "timestamp": "2026-05-24T17:58:09Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5179.jpg"
         },
         {
           "path": "photos/IMG_5180.png",
@@ -437,7 +487,8 @@
           "latitude": 39.9266889,
           "longitude": 3.8243972,
           "timestamp": "2026-05-24T18:10:22Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5180.jpg"
         },
         {
           "path": "photos/IMG_5181.png",
@@ -445,7 +496,8 @@
           "latitude": 39.9232889,
           "longitude": 3.8561472,
           "timestamp": "2026-05-24T19:23:14Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5181.jpg"
         },
         {
           "path": "photos/IMG_5183.png",
@@ -453,7 +505,8 @@
           "latitude": 39.9223417,
           "longitude": 3.87015,
           "timestamp": "2026-05-24T20:01:28Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5183.jpg"
         },
         {
           "path": "photos/IMG_5184.png",
@@ -461,7 +514,8 @@
           "latitude": 39.9230694,
           "longitude": 3.8836306,
           "timestamp": "2026-05-25T06:56:43Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5184.jpg"
         },
         {
           "path": "photos/IMG_5190.png",
@@ -469,7 +523,8 @@
           "latitude": 39.935975,
           "longitude": 3.9327611,
           "timestamp": "2026-05-25T09:43:01Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5190.jpg"
         },
         {
           "path": "photos/IMG_5191.png",
@@ -477,7 +532,8 @@
           "latitude": 39.9388306,
           "longitude": 3.9371694,
           "timestamp": "2026-05-25T09:55:51Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5191.jpg"
         },
         {
           "path": "photos/IMG_5193.png",
@@ -485,7 +541,8 @@
           "latitude": 39.9376639,
           "longitude": 3.9550667,
           "timestamp": "2026-05-25T10:21:56Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5193.jpg"
         },
         {
           "path": "photos/IMG_5194.png",
@@ -493,7 +550,8 @@
           "latitude": 39.9397889,
           "longitude": 3.9582639,
           "timestamp": "2026-05-25T10:43:02Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5194.jpg"
         },
         {
           "path": "photos/IMG_5196.png",
@@ -501,7 +559,8 @@
           "latitude": 39.9340056,
           "longitude": 3.9705667,
           "timestamp": "2026-05-25T11:34:21Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5196.jpg"
         },
         {
           "path": "photos/IMG_5197.png",
@@ -509,7 +568,8 @@
           "latitude": 39.9408417,
           "longitude": 3.99985,
           "timestamp": "2026-05-25T12:24:33Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5197.jpg"
         },
         {
           "path": "photos/IMG_5198.png",
@@ -517,7 +577,8 @@
           "latitude": 39.9210389,
           "longitude": 4.0239056,
           "timestamp": "2026-05-25T13:49:46Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5198.jpg"
         },
         {
           "path": "photos/IMG_5200.png",
@@ -525,7 +586,8 @@
           "latitude": 39.9081778,
           "longitude": 4.0520278,
           "timestamp": "2026-05-25T18:20:16Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5200.jpg"
         },
         {
           "path": "photos/IMG_5203.png",
@@ -533,7 +595,8 @@
           "latitude": 39.9081778,
           "longitude": 4.0538194,
           "timestamp": "2026-05-25T18:24:13Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5203.jpg"
         },
         {
           "path": "photos/IMG_5205.png",
@@ -541,7 +604,8 @@
           "latitude": 39.9150722,
           "longitude": 4.0560056,
           "timestamp": "2026-05-25T18:36:02Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5205.jpg"
         },
         {
           "path": "photos/IMG_5208.png",
@@ -549,7 +613,8 @@
           "latitude": 39.9128278,
           "longitude": 4.065775,
           "timestamp": "2026-05-25T19:15:15Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5208.jpg"
         },
         {
           "path": "photos/IMG_5210.png",
@@ -557,7 +622,8 @@
           "latitude": 39.909175,
           "longitude": 4.068275,
           "timestamp": "2026-05-25T19:23:38Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5210.jpg"
         },
         {
           "path": "photos/IMG_5211.png",
@@ -565,7 +631,8 @@
           "latitude": 39.8924667,
           "longitude": 4.0818639,
           "timestamp": "2026-05-25T20:15:49Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5211.jpg"
         },
         {
           "path": "photos/IMG_5212.png",
@@ -573,7 +640,8 @@
           "latitude": 39.8945056,
           "longitude": 4.0956944,
           "timestamp": "2026-05-25T20:58:45Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5212.jpg"
         },
         {
           "path": "photos/IMG_5223.png",
@@ -581,7 +649,8 @@
           "latitude": 39.8805694,
           "longitude": 4.1270083,
           "timestamp": "2026-05-26T07:33:12Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5223.jpg"
         },
         {
           "path": "photos/IMG_5224.png",
@@ -589,7 +658,8 @@
           "latitude": 39.8704639,
           "longitude": 4.1313639,
           "timestamp": "2026-05-26T08:04:43Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5224.jpg"
         },
         {
           "path": "photos/IMG_5225.png",
@@ -597,7 +667,8 @@
           "latitude": 39.8703639,
           "longitude": 4.1380028,
           "timestamp": "2026-05-26T09:04:00Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5225.jpg"
         },
         {
           "path": "photos/IMG_5228.png",
@@ -605,7 +676,8 @@
           "latitude": 39.8460722,
           "longitude": 4.1997111,
           "timestamp": "2026-05-26T10:41:31Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5228.jpg"
         },
         {
           "path": "photos/IMG_5233.png",
@@ -613,7 +685,8 @@
           "latitude": 39.8285333,
           "longitude": 4.2136417,
           "timestamp": "2026-05-26T12:12:18Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5233.jpg"
         },
         {
           "path": "photos/IMG_5246.png",
@@ -621,7 +694,8 @@
           "latitude": 39.8145611,
           "longitude": 4.2812222,
           "timestamp": "2026-05-26T18:08:52Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5246.jpg"
         },
         {
           "path": "photos/IMG_5248.png",
@@ -629,7 +703,8 @@
           "latitude": 39.8247139,
           "longitude": 4.2959389,
           "timestamp": "2026-05-26T18:36:31Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5248.jpg"
         },
         {
           "path": "photos/IMG_5251.png",
@@ -637,7 +712,8 @@
           "latitude": 39.825175,
           "longitude": 4.2959306,
           "timestamp": "2026-05-26T20:49:09Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5251.jpg"
         },
         {
           "path": "photos/IMG_5256.png",
@@ -645,7 +721,8 @@
           "latitude": 39.854275,
           "longitude": 4.2980222,
           "timestamp": "2026-05-27T09:53:09Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5256.jpg"
         },
         {
           "path": "photos/IMG_5259.png",
@@ -653,7 +730,8 @@
           "latitude": 39.8776556,
           "longitude": 4.2941833,
           "timestamp": "2026-05-27T11:04:12Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5259.jpg"
         },
         {
           "path": "photos/IMG_5260.png",
@@ -661,7 +739,8 @@
           "latitude": 39.8776778,
           "longitude": 4.2940889,
           "timestamp": "2026-05-27T11:04:44Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5260.jpg"
         },
         {
           "path": "photos/IMG_5265.png",
@@ -669,7 +748,8 @@
           "latitude": 39.8792611,
           "longitude": 4.294875,
           "timestamp": "2026-05-27T11:46:52Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5265.jpg"
         },
         {
           "path": "photos/IMG_5266.png",
@@ -677,7 +757,8 @@
           "latitude": 39.880675,
           "longitude": 4.2840889,
           "timestamp": "2026-05-27T12:02:21Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5266.jpg"
         },
         {
           "path": "photos/IMG_5267.png",
@@ -685,7 +766,8 @@
           "latitude": 39.8849444,
           "longitude": 4.26945,
           "timestamp": "2026-05-27T12:20:33Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5267.jpg"
         },
         {
           "path": "photos/IMG_5280.png",
@@ -693,7 +775,8 @@
           "latitude": 39.8893556,
           "longitude": 4.2628167,
           "timestamp": "2026-05-27T15:09:24Z",
-          "location_looked_up": true
+          "location_looked_up": true,
+          "thumbnail": "photos/thumbnails/IMG_5280.jpg"
         }
       ],
       "tracks": [
