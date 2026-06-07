@@ -166,6 +166,7 @@ const TRACK_SUMMARY_ICONS = {
   End: "fas fa-flag-checkered",
   Distance: "fas fa-route",
   Elevation: "fas fa-mountain",
+  Calories: "fas fa-fire",
 };
 
 function chooseWeatherIconClass(weathercode) {
@@ -217,6 +218,10 @@ function formatTrackElevation(track) {
   return `+${ascent !== null ? formatMeters(ascent) : "n/a"} / -${descent !== null ? formatMeters(descent) : "n/a"}`;
 }
 
+function formatTrackCalories(track) {
+  return Number.isFinite(track.calories) ? `${Math.round(track.calories)} kcal` : "n/a";
+}
+
 function getTrackNameFromPath(track) {
   const pathValue = String(track.path || "");
   const filename = pathValue.split("/").pop() || "";
@@ -229,6 +234,7 @@ function renderTrackStats(track) {
     ["End", formatTrackTime(track.end_time)],
     ["Distance", formatTrackDistance(track)],
     ["Elevation", formatTrackElevation(track)],
+    ["Calories", formatTrackCalories(track)],
   ];
 
   if (track.weather) {
@@ -241,7 +247,6 @@ function renderTrackStats(track) {
     cards.push(["Weather", weatherLabel]);
   }
 
-  els.trackName.textContent = getTrackNameFromPath(track);
   els.trackStats.innerHTML = renderTrackSummaryHtml(cards);
 }
 
@@ -274,19 +279,17 @@ function renderCombinedTrackStats(tracks) {
     0
   );
 
-  const trackNames = tracks
-    .map(getTrackNameFromPath)
-    .filter(Boolean);
-
-  els.trackName.textContent = trackNames.length
-    ? trackNames.join(", ")
-    : `${tracks.length} tracks`;
+  const totalCalories = tracks.reduce(
+    (sum, track) => sum + (Number.isFinite(track.calories) ? track.calories : 0),
+    0
+  );
 
   const cards = [
     ["Start", sortedStartTimes[0] ? formatTrackTime(sortedStartTimes[0]) : "n/a"],
     ["End", sortedEndTimes[sortedEndTimes.length - 1] ? formatTrackTime(sortedEndTimes[sortedEndTimes.length - 1]) : "n/a"],
     ["Distance", totalDistance ? `${(totalDistance / 1000).toFixed(1)} km` : "n/a"],
     ["Elevation", `+${formatMeters(totalGain)} / -${formatMeters(totalLoss)}`],
+    ["Calories", totalCalories ? `${Math.round(totalCalories)} kcal` : "n/a"],
   ];
 
   const weatherTrack = tracks.find((track) => track.weather);
