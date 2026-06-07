@@ -957,6 +957,26 @@
         {
           "date": "2026-05-22",
           "path": "notes/day02.md"
+        },
+        {
+          "date": "2026-05-23",
+          "path": "notes/day03.md"
+        },
+        {
+          "date": "2026-05-24",
+          "path": "notes/day04.md"
+        },
+        {
+          "date": "2026-05-25",
+          "path": "notes/day05.md"
+        },
+        {
+          "date": "2026-05-26",
+          "path": "notes/day06.md"
+        },
+        {
+          "date": "2026-05-27",
+          "path": "notes/day07.md"
         }
       ]
     }
