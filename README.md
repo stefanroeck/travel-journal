@@ -39,19 +39,18 @@ python -m pip install -e .
 
 This installs Pillow, which the metadata script uses to read photo EXIF data.
 
-### Update photo metadata
+### Utility scripts
 
-Extract GPS coordinates and timestamps from PNG files in `photos/` and sync them
-into `travels/travels.json`:
-
-```sh
-python scripts/update_photo_metadata.py
-```
-
-The script adds missing photo entries to the matching travel date range and keeps
-existing manually edited metadata by default. To refresh existing values from the
-photo files, run:
-
-```sh
-python scripts/update_photo_metadata.py --overwrite
-```
+- `python scripts/update_photo_metadata.py`
+  - Extracts EXIF GPS and timestamp metadata from `photos/*.png` and syncs it into
+    `travels/travels.json`.
+  - Use `--overwrite` to refresh existing values.
+- `python scripts/generate_photo_thumbnails.py`
+  - Creates JPEG thumbnails under `photos/thumbnails/` and updates `travels.json`
+    with thumbnail paths.
+- `python scripts/convert_fit_to_gpx.py`
+  - Converts Garmin `.fit` files from `tracks/` into `.gpx` and updates
+    `travels/travels.json` with track entries.
+- `python scripts/fetch_weather_for_travels.py`
+  - Fetches daily weather from Open-Meteo and stores it under each track in
+    `travels/travels.json`.
