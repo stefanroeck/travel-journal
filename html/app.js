@@ -122,7 +122,11 @@ function markdownToHtml(markdown) {
     .split(/\n{2,}/)
     .map((paragraph) => paragraph.trim())
     .filter(Boolean)
-    .map((paragraph) => `<p>${escapeHtml(paragraph).replaceAll("\n", "<br>")}</p>`)
+    .map((paragraph) => {
+      const escaped = escapeHtml(paragraph).replaceAll("\n", "<br>");
+      const bolded = escaped.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+      return `<p>${bolded}</p>`;
+    })
     .join("");
 }
 
