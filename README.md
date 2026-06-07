@@ -1,4 +1,4 @@
-# My itinerary
+# Travel Journal
 
 App to browse tracks and photos from my travels.
 
@@ -51,6 +51,7 @@ This installs Pillow, which the metadata script uses to read photo EXIF data.
 - `python scripts/convert_fit_to_gpx.py`
   - Converts Garmin `.fit` files from `tracks/` into `.gpx` and updates
     `travels/travels.json` with track entries.
+  - Use `--simplify` to reduce number of waypoints for smaller file sizes
 - `python scripts/fetch_weather_for_travels.py`
   - Fetches daily weather from Open-Meteo and stores it under each track in
     `travels/travels.json`.
