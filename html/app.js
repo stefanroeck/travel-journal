@@ -616,6 +616,7 @@ async function selectDay(date, { updateUrl = true } = {}) {
   renderDayNav();
   renderTrack();
   renderPhotos();
+  els.photos.scrollTop = 0;
   await renderNotes();
   if (updateUrl) {
     setUrlState({ travelSlug: state.travel.slug, date }, { replace: false });
