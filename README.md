@@ -1,6 +1,8 @@
 # Travel Journal
 
-App to browse tracks and photos from my travels.
+App to browse tracks and photos from my travels. <a href="https://stefanroeck.github.io/travel-journal/html/">Go to Deployment</a>
+
+<img src="screenshot.png"></img>
 
 ## Development
 
