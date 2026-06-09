@@ -1,0 +1,17 @@
+{
+  "name": "travel-journal-e2e",
+  "private": true,
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^20.11.0",
+    "prettier": "^3.8.4",
+    "typescript": "^6.0.3"
+  },
+  "scripts": {
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "typecheck:e2e": "tsc --noEmit",
+    "prettier:fix": "prettier --write \"**/*.ts\"",
+    "prettier:check": "prettier --check \"**/*.ts\""
+  }
+}

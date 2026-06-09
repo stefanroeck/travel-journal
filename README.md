@@ -39,6 +39,31 @@ python -m pip install -e .
 
 This installs Pillow, which the metadata script uses to read photo EXIF data.
 
+### End-to-end tests
+
+The repository includes a Playwright test harness for the static app.
+
+Install dependencies and browser binaries:
+
+```sh
+npm install
+npx playwright install --with-deps
+```
+
+Run the E2E suite:
+
+```sh
+npm run test:e2e
+```
+
+Run TypeScript typechecking for the E2E tests:
+
+```sh
+npm run typecheck:e2e
+```
+
+Playwright launches a local Python web server automatically and navigates to `http://127.0.0.1:8000/html`.
+
 ### Utility scripts
 
 - `python scripts/update_photo_metadata.py`
